@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Treats Cheezy</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div class="container">
+    <h2>Treats Cheesy Pricelist</h2>
+
+    <div class="slider-container no-print">
+        <div id="imageSlider" class="slider-track"></div>
+        <button class="slider-btn prev" onclick="moveSlider(-1)">&#10094;</button>
+        <button class="slider-btn next" onclick="moveSlider(1)">&#10095;</button>
+        <div id="sliderDots" class="slider-dots"></div>
+    </div>
+
+    <div class="admin-header no-print">
+        <span id="adminStatus">Customer Mode</span>
+        <button id="loginBtn" onclick="toggleAdmin()">Admin Login</button>
+    </div>
+
+    <div id="adminSection">
+        <div class="input-group">
+            <input type="text" id="itemName" placeholder="Product Name">
+            <div class="row">
+                <input type="text" id="itemQty" placeholder="Unit (e.g. 1 Box (36pcs))">
+                <input type="text" id="itemWeight" placeholder="Weight (e.g. 250ml)">
+            </div>
+            <div class="row">
+                <input type="number" id="itemPricePiece" placeholder="Price per Piece">
+                <input type="number" id="itemPriceBox" placeholder="Price per Box">
+            </div>
+            <div class="row">
+                <select id="itemStatus">
+                    <option>In Stock</option>
+                    <option>Out of Stock</option>
+                </select>
+                <input type="date" id="itemExpiry">
+            </div>
+            <textarea id="itemDesc" placeholder="Product Description/Notes..." rows="2"></textarea>
+            <input type="text" id="itemImageLink" placeholder="Image Direct Link (Imgur/PostImage)">
+            <button id="addBtn" onclick="addNewProduct()">+ Add & Copy JSON</button>
+        </div>
+    </div>
+
+    <div class="search-container" style="margin-top: 20px;">
+        <input type="text" id="searchInput" onkeyup="searchFunction()" placeholder="Maghanap ng produkto...">
+    </div>
+
+    <div id="productGrid" class="product-grid"></div>
+</div>
+
+<div id="basketFloat" onclick="toggleBasketModal()">
+    🛒 <span id="basketCount">0</span>
+</div>
+
+<div id="productViewModal" class="modal" onclick="closeProductView()">
+    <div class="modal-content" onclick="event.stopPropagation()">
+        <img id="viewImage" src="" class="view-img-large">
+        <h3 id="viewName"></h3>
+        
+        <p id="viewDesc" style="font-size: 14px; color: #555; background: #f9f9f9; padding: 10px; border-radius: 8px; border-left: 4px solid #1a73e8; margin-bottom: 15px;"></p>
+
+        <div class="view-details">
+            <p id="viewQty"></p>
+            <p id="viewWeight"></p>
+            <p id="viewExpiry"></p>
+        </div>
+        <div id="viewStatus"></div>
+        <div id="viewPriceContainer" class="modal-actions" style="display:flex; gap:10px; margin-top:15px;"></div>
+        <button class="close-modal-btn" onclick="closeProductView()" style="width:100%; margin-top:15px; padding:10px; border-radius:10px; border:1px solid #ddd; background:none; cursor:pointer;">Isara</button>
+    </div>
+</div>
+
+<div id="basketModal" class="modal" onclick="toggleBasketModal()">
+    <div class="modal-content" onclick="event.stopPropagation()">
+        <h3>🛒 Checkout Details</h3>
+        <div class="delivery-info">🚚 Deliveries via Lalamove. SF paid by customer.</div>
+        <div class="input-group">
+            <input type="text" id="customerName" placeholder="Full Name">
+            <input type="number" id="customerContact" placeholder="Contact Number">
+            <textarea id="customerAddress" placeholder="Complete Address" rows="2"></textarea>
+            <select id="paymentMethod">
+                <option>GCash</option>
+                <option>Maya</option>
+                <option>Cash on Delivery (COD)</option>
+            </select>
+        </div>
+        <div id="basketList"></div>
+        <div class="total-section" style="display:flex; justify-content:space-between; font-weight:bold; padding:15px 0;">
+            <span>TOTAL:</span><span id="basketTotal">₱0</span>
+        </div>
+        <div class="checkout-footer" style="display:flex; gap:10px;">
+            <button onclick="sendOrder('whatsapp')" class="btn-wa">WhatsApp</button>
+            <button onclick="sendOrder('messenger')" class="btn-msgr">Messenger</button>
+        </div>
+    </div>
+</div>
+
+<script src="script.js"></script>
+</body>
+</html>
+
