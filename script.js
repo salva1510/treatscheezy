@@ -73,6 +73,7 @@ function handleSwipe() {
     if (touchEndX > touchStartX + 50) moveSlider(-1);
 }
 
+// Palitan ang displayItems function para makita ang Edit button sa Admin
 function displayItems(items) {
     const grid = document.getElementById('productGrid');
     grid.innerHTML = items.map((item, index) => {
@@ -84,15 +85,20 @@ function displayItems(items) {
                     <span class="status-badge ${statusClass}">${item.status}</span>
                     <h4>${item.name}</h4>
                     <div class="item-details-text">${item.qty || ''} ${item.weight ? ' • ' + item.weight : ''}</div>
-                    <div style="margin-bottom: 8px;">
-                        <div class="price-tag" style="font-size: 13px; color: #1a73e8;">₱${(item.pricePiece || 0).toLocaleString()} / pc</div>
-                        <div class="price-tag" style="font-size: 12px; color: #28a745;">₱${(item.priceBox || 0).toLocaleString()} / box</div>
+                    <div style="margin-bottom: 8px; text-align:left; padding:0 5px;">
+                        ${item.pricePiece ? `<div class="price-tag" style="font-size:11px; color:#1a73e8;">₱${item.pricePiece.toLocaleString()} /pc</div>` : ''}
+                        ${item.pricePack ? `<div class="price-tag" style="font-size:11px; color:#e67e22;">₱${item.pricePack.toLocaleString()} /pack</div>` : ''}
+                        ${item.priceBox ? `<div class="price-tag" style="font-size:11px; color:#28a745;">₱${item.priceBox.toLocaleString()} /box</div>` : ''}
                     </div>
                 </div>
-                <div style="display:flex; flex-direction:column;">
-                    ${isAdmin ? `<button onclick="deleteItem(${index})" style="background:#dc3545; color:#fff; border:none; padding:8px; border-radius:8px; cursor:pointer;">Delete</button>` : 
+                <div style="display:flex; flex-direction:column; gap:4px;">
+                    ${isAdmin ? `
+                        <button onclick="editItem(${index})" style="background:#ffc107; color:#000; border:none; padding:8px; border-radius:8px; cursor:pointer; font-weight:bold;">Edit</button>
+                        <button onclick="deleteItem(${index})" style="background:#dc3545; color:#fff; border:none; padding:8px; border-radius:8px; cursor:pointer;">Delete</button>
+                    ` : 
                     `
                         <button class="opt-btn btn-pc" onclick="addToBasket('${item.name}', ${item.pricePiece}, 'Piece')">+ Piece</button>
+                        ${item.pricePack ? `<button class="opt-btn" style="background:#e67e22; margin-bottom:5px;" onclick="addToBasket('${item.name}', ${item.pricePack}, 'Pack')">+ Pack</button>` : ''}
                         <button class="opt-btn btn-box" onclick="addToBasket('${item.name}', ${item.priceBox}, 'Box')">+ Box</button>
                     `}
                 </div>
@@ -100,6 +106,62 @@ function displayItems(items) {
         `;
     }).join('');
 }
+
+// Function para mapuno ang form kapag mag-eedit
+function editItem(index) {
+    const item = currentLiveItems[index];
+    document.getElementById('editIndex').value = index;
+    document.getElementById('itemName').value = item.name;
+    document.getElementById('itemQty').value = item.qty;
+    document.getElementById('itemWeight').value = item.weight;
+    document.getElementById('itemPricePiece').value = item.pricePiece;
+    document.getElementById('itemPricePack').value = item.pricePack || 0;
+    document.getElementById('itemPriceBox').value = item.priceBox;
+    document.getElementById('itemStatus').value = item.status;
+    document.getElementById('itemExpiry').value = item.expiry;
+    document.getElementById('itemDesc').value = item.description;
+    document.getElementById('itemImageLink').value = item.image;
+    
+    document.getElementById('addBtn').innerText = "Update & Copy JSON";
+    document.getElementById('cancelEditBtn').style.display = "block";
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function clearAdminForm() {
+    document.getElementById('editIndex').value = "-1";
+    document.getElementById('addBtn').innerText = "+ Add & Copy JSON";
+    document.getElementById('cancelEditBtn').style.display = "none";
+    document.querySelectorAll('#adminSection input, #adminSection textarea').forEach(i => i.value = "");
+}
+
+function saveProduct() {
+    const idx = parseInt(document.getElementById('editIndex').value);
+    const newItem = {
+        name: document.getElementById('itemName').value,
+        qty: document.getElementById('itemQty').value,
+        weight: document.getElementById('itemWeight').value,
+        pricePiece: Number(document.getElementById('itemPricePiece').value),
+        pricePack: Number(document.getElementById('itemPricePack').value),
+        priceBox: Number(document.getElementById('itemPriceBox').value),
+        status: document.getElementById('itemStatus').value,
+        expiry: document.getElementById('itemExpiry').value,
+        description: document.getElementById('itemDesc').value,
+        image: document.getElementById('itemImageLink').value
+    };
+
+    if(!newItem.name) return alert("Paki-lagay ang pangalan!");
+
+    if (idx === -1) {
+        currentLiveItems.push(newItem);
+    } else {
+        currentLiveItems[idx] = newItem;
+    }
+
+    displayItems(currentLiveItems);
+    clearAdminForm();
+    copyNewJSON();
+}
+
 
 // IN-UPDATE: Para ipakita ang Description
 function openProductView(index) {
