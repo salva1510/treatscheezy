@@ -25,15 +25,43 @@
 
     <div id="adminSection" style="display:none;">
         <div class="input-group">
+            <input type="hidden" id="editIndex" value="-1">
             <input type="text" id="itemName" placeholder="Product Name">
             <div class="row">
                 <input type="text" id="itemQty" placeholder="Unit (e.g. 1 Box (36pcs))">
                 <input type="text" id="itemWeight" placeholder="Weight (e.g. 250ml)">
             </div>
+            
+            <p style="font-size: 12px; font-weight: bold; margin-bottom: 5px;">Prices:</p>
             <div class="row">
-                <input type="number" id="itemPricePiece" placeholder="Price per Piece">
-                <input type="number" id="itemPriceBox" placeholder="Price per Box">
+                <input type="number" id="itemPricePiece" placeholder="Price/Piece">
+                <input type="number" id="itemPricePack" placeholder="Price/Pack">
             </div>
+            <div class="row">
+                <input type="number" id="itemPriceSet" placeholder="Price/Set">
+                <input type="number" id="itemPriceBox" placeholder="Price/Box">
+            </div>
+
+            <div style="background:#e3f2fd; padding:10px; border-radius:10px; margin:10px 0;">
+                <p style="font-size:12px; font-weight:bold; margin-bottom:5px;">Bulk Discounts (Pakyawan Settings):</p>
+                <div class="row">
+                    <input type="number" id="pieceThreshold" placeholder="Min Piece Qty">
+                    <input type="number" id="pieceDiscountPrice" placeholder="Disc. Price/Pc">
+                </div>
+                <div class="row">
+                    <input type="number" id="packThreshold" placeholder="Min Pack Qty">
+                    <input type="number" id="packDiscountPrice" placeholder="Disc. Price/Pack">
+                </div>
+                <div class="row">
+                    <input type="number" id="setThreshold" placeholder="Min Set Qty">
+                    <input type="number" id="setDiscountPrice" placeholder="Disc. Price/Set">
+                </div>
+                <div class="row">
+                    <input type="number" id="boxThreshold" placeholder="Min Box Qty">
+                    <input type="number" id="boxDiscountPrice" placeholder="Disc. Price/Box">
+                </div>
+            </div>
+
             <div class="row">
                 <select id="itemStatus">
                     <option>In Stock</option>
@@ -43,36 +71,15 @@
             </div>
             <textarea id="itemDesc" placeholder="Product Description..." rows="2"></textarea>
             <input type="text" id="itemImageLink" placeholder="Image Direct Link">
-            <button id="addBtn" onclick="addNewProduct()">Add Product</button>
+            <button id="addBtn" onclick="saveProduct()" style="background:#28a745; color:white; width:100%; padding:12px; border:none; border-radius:8px; font-weight:bold; cursor:pointer;">Save & Copy JSON</button>
         </div>
+    </div>
+
+    <div class="search-box no-print">
+        <input type="text" id="searchInput" placeholder="Search products..." onkeyup="searchFunction()">
     </div>
 
     <div id="productGrid" class="product-grid"></div>
-</div>
-
-<div id="searchOverlay" class="search-overlay no-print">
-    <div class="search-header">
-        <div class="search-bar-wrapper">
-            <input type="text" id="searchInput" placeholder="Ano ang hinahanap mo?" onkeyup="searchFunction()">
-            <button class="close-search-btn" onclick="toggleSearch(false)">✕</button>
-        </div>
-    </div>
-    <div id="searchResultGrid" class="product-grid" style="margin-top: 80px; padding: 15px;"></div>
-</div>
-
-<div class="footer-nav no-print">
-    <div class="nav-item" onclick="window.scrollTo({top: 0, behavior: 'smooth'})">
-        <span>🏠</span><p>Home</p>
-    </div>
-    <div class="nav-item" onclick="toggleSearch(true)">
-        <span>🔍</span><p>Search</p>
-    </div>
-    <div class="nav-item" onclick="alert('Categories soon!')">
-        <span>📦</span><p>Category</p>
-    </div>
-    <div class="nav-item" onclick="window.open('https://m.me/kram.samot.2024')">
-        <span>📞</span><p>Contact</p>
-    </div>
 </div>
 
 <div id="basketFloat" onclick="toggleBasketModal()">
@@ -99,14 +106,16 @@
 <div id="basketModal" class="modal" onclick="toggleBasketModal()">
     <div class="modal-content" onclick="event.stopPropagation()">
         <h3>🛒 Checkout Details</h3>
+        <div class="delivery-info">🚚 Deliveries via Lalamove. SF paid by customer.</div>
         <div class="input-group">
             <input type="text" id="customerName" placeholder="Full Name">
-            <input type="number" id="customerContact" placeholder="Contact Number">
+            <input type="number" id="customerContact" placeholder="Contact Number (e.g. 09123456789)">
             <textarea id="customerAddress" placeholder="Complete Address" rows="2"></textarea>
             <select id="paymentMethod">
-                <option>GCash</option>
-                <option>GCash upon Pick up</option>
-                <option>Cash on Delivery (COD)</option>
+                <option value="GCash">GCash</option>
+                <option value="Maya">Maya</option>
+                <option value="COD">Cash on Delivery (COD)</option>
+                <option value="GCash-Pickup">GCash upon Pick up</option>
             </select>
         </div>
         <div id="basketList"></div>
@@ -114,12 +123,13 @@
             <span>TOTAL:</span><span id="basketTotal">₱0</span>
         </div>
         <div class="checkout-footer" style="display:flex; gap:10px;">
-            <button onclick="sendOrder('messenger')" class="btn-msgr" style="width:100%;">Messenger</button>
+            <button onclick="sendOrder('whatsapp')" class="btn-wa">WhatsApp</button>
+            <button onclick="sendOrder('messenger')" class="btn-msgr">Messenger</button>
         </div>
     </div>
 </div>
 
 <script src="script.js"></script>
 </body>
-              </html>
-              
+</html>
+

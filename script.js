@@ -5,17 +5,22 @@ let currentSlide = 0;
 let touchStartX = 0;
 let touchEndX = 0;
 
+const ADMIN_PHONE = "639153290207"; 
 const FB_USERNAME = "kram.samot.2024"; 
+const JSON_URL = 'products.json'; 
 
 document.addEventListener('DOMContentLoaded', () => {
-    if (localStorage.getItem('adminLoggedIn') === 'true') { isAdmin = true; applyAdminUI(); }
+    if (localStorage.getItem('adminLoggedIn') === 'true') {
+        isAdmin = true;
+        applyAdminUI();
+    }
     loadData();
     setupSwipe();
 });
 
 async function loadData() {
     try {
-        const res = await fetch('products.json?nocache=' + new Date().getTime());
+        const res = await fetch(JSON_URL + '?nocache=' + new Date().getTime());
         currentLiveItems = await res.json();
         displayItems(currentLiveItems);
         setupSlider(currentLiveItems);
@@ -27,7 +32,7 @@ function setupSlider(items) {
     const dots = document.getElementById('sliderDots');
     track.innerHTML = items.map((item, index) => `
         <div class="slider-item" onclick="openProductView(${index})" style="cursor:pointer;">
-            <img src="${item.image}">
+            <img src="${item.image}" onerror="this.src='https://via.placeholder.com/400x250?text=No+Image'">
             <p>${item.name} - View Details</p>
         </div>
     `).join('');
@@ -35,49 +40,69 @@ function setupSlider(items) {
 }
 
 function moveSlider(direction) {
-    const total = currentLiveItems.length;
-    currentSlide = (currentSlide + direction + total) % total;
-    document.getElementById('imageSlider').style.transform = `translateX(-${currentSlide * 100}%)`;
-    document.querySelectorAll('.dot').forEach((d, i) => d.classList.toggle('active', i === currentSlide));
+    const totalSlides = currentLiveItems.length;
+    currentSlide = (currentSlide + direction + totalSlides) % totalSlides;
+    updateSliderPosition();
+}
+
+function goToSlide(index) {
+    currentSlide = index;
+    updateSliderPosition();
+}
+
+function updateSliderPosition() {
+    const track = document.getElementById('imageSlider');
+    const dots = document.querySelectorAll('.dot');
+    track.style.transform = `translateX(-${currentSlide * 100}%)`;
+    dots.forEach((dot, i) => dot.classList.toggle('active', i === currentSlide));
+}
+
+function setupSwipe() {
+    const slider = document.getElementById('imageSlider');
+    slider.addEventListener('touchstart', e => { touchStartX = e.changedTouches[0].screenX; }, false);
+    slider.addEventListener('touchend', e => {
+        touchEndX = e.changedTouches[0].screenX;
+        handleSwipe();
+    }, false);
+}
+
+function handleSwipe() {
+    if (touchEndX < touchStartX - 50) moveSlider(1);
+    if (touchEndX > touchStartX + 50) moveSlider(-1);
 }
 
 function displayItems(items) {
     const grid = document.getElementById('productGrid');
-    grid.innerHTML = items.map((item, index) => `
-        <div class="product-card">
-            <img src="${item.image}" onclick="openProductView(${index})">
-            <h4 onclick="openProductView(${index})">${item.name}</h4>
-            <p>₱${item.pricePiece}/pc | ₱${item.priceBox}/box</p>
-            <button class="opt-btn btn-pc" onclick="addToBasket('${item.name}', ${item.pricePiece}, 'Piece')">+ Piece</button>
-            <button class="opt-btn btn-box" onclick="addToBasket('${item.name}', ${item.priceBox}, 'Box')">+ Box</button>
-        </div>
-    `).join('');
-}
-
-// SAFE SEARCH (Does not affect home grid)
-function toggleSearch(show) {
-    document.getElementById('searchOverlay').style.display = show ? 'block' : 'none';
-    if(show) { 
-        document.getElementById('searchInput').focus();
-        renderSearchResults(currentLiveItems);
-    }
-}
-
-function searchFunction() {
-    let val = document.getElementById('searchInput').value.toUpperCase();
-    const filtered = currentLiveItems.filter(item => item.name.toUpperCase().includes(val));
-    renderSearchResults(filtered);
-}
-
-function renderSearchResults(items) {
-    const grid = document.getElementById('searchResultGrid');
-    grid.innerHTML = items.map(item => {
-        const idx = currentLiveItems.findIndex(p => p.name === item.name);
-        return `<div class="product-card" style="width:145px;">
-            <img src="${item.image}" onclick="openProductView(${idx})">
-            <h4 style="font-size:12px;">${item.name}</h4>
-            <button class="opt-btn btn-pc" style="font-size:10px;" onclick="addToBasket('${item.name}', ${item.pricePiece}, 'Piece')">+ Add</button>
-        </div>`;
+    grid.innerHTML = items.map((item, index) => {
+        const statusClass = item.status === "In Stock" ? "in-stock" : "out-stock";
+        return `
+            <div class="product-card">
+                <img src="${item.image}" onclick="openProductView(${index})" onerror="this.src='https://via.placeholder.com/150?text=No+Image'">
+                <div onclick="openProductView(${index})" style="cursor:pointer; flex-grow:1;">
+                    <span class="status-badge ${statusClass}">${item.status}</span>
+                    <h4>${item.name}</h4>
+                    <div class="item-details-text">${item.qty || ''} ${item.weight ? ' • ' + item.weight : ''}</div>
+                    <div style="margin-bottom: 8px; text-align:left; padding:0 5px;">
+                        ${item.pricePiece ? `<div class="price-tag" style="font-size:11px; color:#1a73e8;">₱${item.pricePiece.toLocaleString()} /pc</div>` : ''}
+                        ${item.pricePack ? `<div class="price-tag" style="font-size:11px; color:#e67e22;">₱${item.pricePack.toLocaleString()} /pack</div>` : ''}
+                        ${item.priceSet ? `<div class="price-tag" style="font-size:11px; color:#6f42c1;">₱${item.priceSet.toLocaleString()} /set</div>` : ''}
+                        ${item.priceBox ? `<div class="price-tag" style="font-size:11px; color:#28a745;">₱${item.priceBox.toLocaleString()} /box</div>` : ''}
+                    </div>
+                </div>
+                <div style="display:flex; flex-direction:column; gap:4px;">
+                    ${isAdmin ? `
+                        <button onclick="editItem(${index})" style="background:#ffc107; color:#000; border:none; padding:8px; border-radius:8px; cursor:pointer; font-weight:bold;">Edit</button>
+                        <button onclick="deleteItem(${index})" style="background:#dc3545; color:#fff; border:none; padding:8px; border-radius:8px; cursor:pointer;">Delete</button>
+                    ` : 
+                    `
+                        <button class="opt-btn btn-pc" onclick="addToBasket('${item.name}', ${item.pricePiece}, 'Piece')">+ Piece</button>
+                        ${item.pricePack ? `<button class="opt-btn" style="background:#e67e22; margin-bottom:5px;" onclick="addToBasket('${item.name}', ${item.pricePack}, 'Pack')">+ Pack</button>` : ''}
+                        ${item.priceSet ? `<button class="opt-btn" style="background:#6f42c1; margin-bottom:5px;" onclick="addToBasket('${item.name}', ${item.priceSet}, 'Set')">+ Set</button>` : ''}
+                        <button class="opt-btn btn-box" onclick="addToBasket('${item.name}', ${item.priceBox}, 'Box')">+ Box</button>
+                    `}
+                </div>
+            </div>
+        `;
     }).join('');
 }
 
@@ -85,17 +110,21 @@ function openProductView(index) {
     const item = currentLiveItems[index];
     document.getElementById('viewImage').src = item.image;
     document.getElementById('viewName').innerText = item.name;
-    document.getElementById('viewDesc').innerText = item.description || "";
-    document.getElementById('viewQty').innerText = "Unit: " + item.qty;
-    document.getElementById('viewStatus').innerText = item.status;
-    document.getElementById('viewPriceContainer').innerHTML = `
-        <button class="opt-btn btn-pc" onclick="addToBasket('${item.name}', ${item.pricePiece}, 'Piece')">Piece (₱${item.pricePiece})</button>
-        <button class="opt-btn btn-box" onclick="addToBasket('${item.name}', ${item.priceBox}, 'Box')">Box (₱${item.priceBox})</button>
-    `;
+    document.getElementById('viewDesc').innerText = item.description || "No description provided.";
+    document.getElementById('viewQty').innerText = "📦 Unit: " + (item.qty || 'N/A');
+    document.getElementById('viewWeight').innerText = "⚖️ Weight: " + (item.weight || 'N/A');
+    document.getElementById('viewExpiry').innerText = "📅 Expiry: " + (item.expiry || 'Not set');
+    document.getElementById('viewStatus').innerHTML = `<span class="status-badge ${item.status === "In Stock" ? "in-stock" : "out-stock"}">${item.status}</span>`;
+    
+    let buttonsHtml = '';
+    if(item.pricePiece) buttonsHtml += `<button class="opt-btn btn-pc" onclick="addToBasket('${item.name}', ${item.pricePiece}, 'Piece'); closeProductView();" style="width:48%;">Piece (₱${item.pricePiece})</button>`;
+    if(item.pricePack) buttonsHtml += `<button class="opt-btn" style="background:#e67e22; width:48%; color:white;" onclick="addToBasket('${item.name}', ${item.pricePack}, 'Pack'); closeProductView();">Pack (₱${item.pricePack})</button>`;
+    if(item.priceSet) buttonsHtml += `<button class="opt-btn" style="background:#6f42c1; width:48%; color:white;" onclick="addToBasket('${item.name}', ${item.priceSet}, 'Set'); closeProductView();">Set (₱${item.priceSet})</button>`;
+    if(item.priceBox) buttonsHtml += `<button class="opt-btn btn-box" onclick="addToBasket('${item.name}', ${item.priceBox}, 'Box'); closeProductView();" style="width:48%;">Box (₱${item.priceBox})</button>`;
+    
+    document.getElementById('viewPriceContainer').innerHTML = buttonsHtml;
     document.getElementById('productViewModal').style.display = 'flex';
 }
-
-function closeProductView() { document.getElementById('productViewModal').style.display = 'none'; }
 
 function addToBasket(name, price, type) {
     const key = `${name} (${type})`;
@@ -104,41 +133,196 @@ function addToBasket(name, price, type) {
     document.getElementById('basketFloat').style.display = 'flex';
 }
 
-function updateBasketCount() {
-    let count = Object.values(basket).reduce((a, b) => a + b.count, 0);
-    document.getElementById('basketCount').innerText = count;
-}
-
-function toggleBasketModal() {
-    const m = document.getElementById('basketModal');
-    m.style.display = m.style.display === 'flex' ? 'none' : 'flex';
-    if(m.style.display === 'flex') renderBasket();
-}
-
 function renderBasket() {
     const list = document.getElementById('basketList');
-    let total = 0; let html = "";
+    let total = 0;
+    let html = "";
+    
     for (let key in basket) {
         let item = basket[key];
-        total += item.price * item.count;
-        html += `<div style="padding:10px; border-bottom:1px solid #eee;">${key} x ${item.count} - ₱${item.price * item.count}</div>`;
+        let productData = currentLiveItems.find(p => p.name === item.originalName);
+        let finalPrice = item.price;
+        let discountApplied = false;
+
+        if (productData && productData.discounts) {
+            const d = productData.discounts;
+            // CHECKING ALL DISCOUNT TYPES
+            if (item.type === 'Piece' && d.pieceThreshold > 0 && item.count >= d.pieceThreshold) { finalPrice = d.pieceDiscountPrice; discountApplied = true; }
+            else if (item.type === 'Pack' && d.packThreshold > 0 && item.count >= d.packThreshold) { finalPrice = d.packDiscountPrice; discountApplied = true; }
+            else if (item.type === 'Set' && d.setThreshold > 0 && item.count >= d.setThreshold) { finalPrice = d.setDiscountPrice; discountApplied = true; }
+            else if (item.type === 'Box' && d.boxThreshold > 0 && item.count >= d.boxThreshold) { finalPrice = d.boxDiscountPrice; discountApplied = true; }
+        }
+
+        total += finalPrice * item.count;
+        html += `
+        <div style="display:flex; justify-content:space-between; align-items:center; padding:10px 0; border-bottom:1px solid #eee;">
+            <div style="flex: 1;">
+                <div style="font-weight:bold; font-size:14px;">${key}</div>
+                <div style="color:#28a745; font-size:12px;">
+                    ₱${finalPrice.toLocaleString()} ea. 
+                    ${discountApplied ? '<span style="color:red; font-weight:bold; font-size:10px;">(DISCOUNTED)</span>' : ''}
+                </div>
+            </div>
+            <div style="display:flex; align-items:center; gap:8px;">
+                <div style="display:flex; align-items:center; background:#f0f0f0; border-radius:5px; overflow:hidden;">
+                    <button onclick="changeQuantity('${key}', -1)" style="border:none; padding:5px 10px; cursor:pointer;">-</button>
+                    <span style="font-weight:bold; min-width:25px; text-align:center;">${item.count}</span>
+                    <button onclick="changeQuantity('${key}', 1)" style="border:none; padding:5px 10px; cursor:pointer;">+</button>
+                </div>
+                <button onclick="removeFromBasket('${key}')" style="background:#ff4d4d; color:white; border:none; padding:6px 10px; border-radius:5px;">🗑️</button>
+            </div>
+        </div>`;
     }
-    list.innerHTML = html || "Basket is empty.";
-    document.getElementById('basketTotal').innerText = "₱" + total;
+    list.innerHTML = html || "<p style='text-align:center; padding:20px; color:#888;'>Walang laman ang basket.</p>";
+    document.getElementById('basketTotal').innerText = "₱" + total.toLocaleString();
 }
 
-function sendOrder() {
+function changeQuantity(key, delta) {
+    if (basket[key]) {
+        basket[key].count += delta;
+        if (basket[key].count <= 0) delete basket[key];
+        updateBasketCount();
+        renderBasket();
+    }
+}
+
+function removeFromBasket(key) {
+    if (confirm("Alisin ang item na ito?")) {
+        delete basket[key];
+        updateBasketCount();
+        renderBasket();
+    }
+}
+
+function updateBasketCount() {
+    let total = Object.values(basket).reduce((acc, item) => acc + item.count, 0);
+    document.getElementById('basketCount').innerText = total;
+    document.getElementById('basketFloat').style.display = total > 0 ? 'flex' : 'none';
+}
+
+function sendOrder(platform) {
     const name = document.getElementById('customerName').value;
-    const addr = document.getElementById('customerAddress').value;
-    if(!name || !addr) return alert("Details needed!");
-    let msg = `Order for ${name}:\n`;
-    for(let k in basket) { msg += `- ${k} x ${basket[k].count}\n`; }
-    window.open(`https://m.me/${FB_USERNAME}?text=${encodeURIComponent(msg)}`);
+    const contact = document.getElementById('customerContact').value; // NEW/RESTORED
+    const address = document.getElementById('customerAddress').value;
+    const payment = document.getElementById('paymentMethod').value; // NEW
+
+    if(!name || !contact || !address || Object.keys(basket).length === 0) return alert("Paki-puno ang lahat ng detalye!");
+    
+    let msg = `*BAGONG ORDER*\n👤 Name: ${name}\n📞 Contact: ${contact}\n📍 Addr: ${address}\n💰 Payment: ${payment}\n----------\n`;
+    // ... yung ibang logic ng message calculation ...
+
+    let total = 0;
+    
+    for (let k in basket) {
+        let item = basket[k];
+        let productData = currentLiveItems.find(p => p.name === item.originalName);
+        let finalPrice = item.price;
+        if (productData && productData.discounts) {
+            const d = productData.discounts;
+            if (item.type === 'Piece' && item.count >= d.pieceThreshold) finalPrice = d.pieceDiscountPrice;
+            if (item.type === 'Pack' && item.count >= d.packThreshold) finalPrice = d.packDiscountPrice;
+            if (item.type === 'Set' && item.count >= d.setThreshold) finalPrice = d.setDiscountPrice;
+            if (item.type === 'Box' && item.count >= d.boxThreshold) finalPrice = d.boxDiscountPrice;
+        }
+        msg += `- ${k} x ${item.count} (@₱${finalPrice.toLocaleString()})\n`;
+        total += (finalPrice * item.count);
+    }
+    msg += `----------\n💰 *TOTAL: ₱${total.toLocaleString()}*`;
+
+    if(platform === 'whatsapp') window.open(`https://wa.me/${ADMIN_PHONE}?text=${encodeURIComponent(msg)}`);
+    else { navigator.clipboard.writeText(msg); alert("Order details copied!"); window.open(`https://m.me/${FB_USERNAME}`); }
 }
 
 function toggleAdmin() {
-    if (prompt("Pass:") === "123") { localStorage.setItem('adminLoggedIn', 'true'); location.reload(); }
+    if (isAdmin) { localStorage.removeItem('adminLoggedIn'); location.reload(); }
+    else if (prompt("Pass:") === "123") { localStorage.setItem('adminLoggedIn', 'true'); location.reload(); }
 }
-function applyAdminUI() { document.getElementById('adminSection').style.display = "block"; }
-function setupSwipe() { /* Original Swipe logic here */ }
+
+function applyAdminUI() {
+    document.getElementById('adminSection').style.display = "block";
+    document.getElementById('adminStatus').innerText = "Admin Mode";
+    document.getElementById('loginBtn').innerText = "Logout";
+}
+
+function editItem(index) {
+    const item = currentLiveItems[index];
+    document.getElementById('editIndex').value = index;
+    document.getElementById('itemName').value = item.name;
+    document.getElementById('itemQty').value = item.qty;
+    document.getElementById('itemWeight').value = item.weight;
+    document.getElementById('itemPricePiece').value = item.pricePiece;
+    document.getElementById('itemPricePack').value = item.pricePack || 0;
+    document.getElementById('itemPriceSet').value = item.priceSet || 0;
+    document.getElementById('itemPriceBox').value = item.priceBox;
+    document.getElementById('itemStatus').value = item.status;
+    document.getElementById('itemExpiry').value = item.expiry;
+    document.getElementById('itemDesc').value = item.description;
+    document.getElementById('itemImageLink').value = item.image;
+    
+    if(item.discounts) {
+        document.getElementById('pieceThreshold').value = item.discounts.pieceThreshold || 0;
+        document.getElementById('pieceDiscountPrice').value = item.discounts.pieceDiscountPrice || 0;
+        document.getElementById('packThreshold').value = item.discounts.packThreshold || 0;
+        document.getElementById('packDiscountPrice').value = item.discounts.packDiscountPrice || 0;
+        document.getElementById('setThreshold').value = item.discounts.setThreshold || 0;
+        document.getElementById('setDiscountPrice').value = item.discounts.setDiscountPrice || 0;
+        document.getElementById('boxThreshold').value = item.discounts.boxThreshold || 0;
+        document.getElementById('boxDiscountPrice').value = item.discounts.boxDiscountPrice || 0;
+    }
+    document.getElementById('addBtn').innerText = "Update & Copy JSON";
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function toggleBasketModal() {
+    const modal = document.getElementById('basketModal');
+    modal.style.display = modal.style.display === 'flex' ? 'none' : 'flex';
+    if(modal.style.display === 'flex') renderBasket();
+}
+
+function closeProductView() { document.getElementById('productViewModal').style.display = 'none'; }
+
+function searchFunction() {
+    let val = document.getElementById('searchInput').value.toUpperCase();
+    let cards = document.getElementsByClassName('product-card');
+    for (let card of cards) card.style.display = card.innerText.toUpperCase().includes(val) ? "flex" : "none";
+}
+
+function saveProduct() {
+    const idx = parseInt(document.getElementById('editIndex').value || -1);
+    const newItem = {
+        name: document.getElementById('itemName').value,
+        qty: document.getElementById('itemQty').value,
+        weight: document.getElementById('itemWeight').value,
+        pricePiece: Number(document.getElementById('itemPricePiece').value),
+        pricePack: Number(document.getElementById('itemPricePack').value),
+        priceSet: Number(document.getElementById('itemPriceSet').value),
+        priceBox: Number(document.getElementById('itemPriceBox').value),
+        status: document.getElementById('itemStatus').value,
+        expiry: document.getElementById('itemExpiry').value,
+        description: document.getElementById('itemDesc').value,
+        image: document.getElementById('itemImageLink').value,
+        discounts: {
+            pieceThreshold: Number(document.getElementById('pieceThreshold').value || 0),
+            pieceDiscountPrice: Number(document.getElementById('pieceDiscountPrice').value || 0),
+            packThreshold: Number(document.getElementById('packThreshold').value || 0),
+            packDiscountPrice: Number(document.getElementById('packDiscountPrice').value || 0),
+            setThreshold: Number(document.getElementById('setThreshold').value || 0),
+            setDiscountPrice: Number(document.getElementById('setDiscountPrice').value || 0),
+            boxThreshold: Number(document.getElementById('boxThreshold').value || 0),
+            boxDiscountPrice: Number(document.getElementById('boxDiscountPrice').value || 0)
+        }
+    };
+    if(!newItem.name) return alert("Paki-lagay ang pangalan!");
+    if (idx === -1) currentLiveItems.push(newItem);
+    else currentLiveItems[idx] = newItem;
+    displayItems(currentLiveItems);
+    copyNewJSON();
+}
+
+function addNewProduct() { saveProduct(); }
+function deleteItem(index) { if(confirm("Burahin?")) { currentLiveItems.splice(index, 1); displayItems(currentLiveItems); copyNewJSON(); } }
+function copyNewJSON() { 
+    navigator.clipboard.writeText(JSON.stringify(currentLiveItems, null, 2))
+    .then(() => alert("JSON Copied! Update your products.json."));
+        }
       
