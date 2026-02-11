@@ -251,5 +251,28 @@
       "boxThreshold": 0,
       "boxDiscountPrice": 0
     }
+  },
+  {
+    "name": "HyFun Fries",
+    "qty": "Buy 1 take 1",
+    "weight": "",
+    "pricePiece": 150,
+    "pricePack": 0,
+    "priceSet": 0,
+    "priceBox": 0,
+    "status": "In Stock",
+    "expiry": "2026-04-14",
+    "description": "Place Order na Bilis",
+    "image": "https://i.postimg.cc/65DmQMfp/received-896896759613211.jpg",
+    "discounts": {
+      "pieceThreshold": 2,
+      "pieceDiscountPrice": 150,
+      "packThreshold": 0,
+      "packDiscountPrice": 0,
+      "setThreshold": 0,
+      "setDiscountPrice": 0,
+      "boxThreshold": 0,
+      "boxDiscountPrice": 0
+    }
   }
 ]
