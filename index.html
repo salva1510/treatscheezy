@@ -130,10 +130,13 @@
 </div>
     
 <div id="searchOverlay" class="search-overlay no-print">
-    <div class="search-bar-container">
-        <input type="text" id="searchInput" placeholder="Ano ang hinahanap mo?" onkeyup="searchFunction()">
-        <button onclick="toggleSearch(false)">X</button>
+    <div class="search-header">
+        <div class="search-bar-wrapper">
+            <input type="text" id="searchInput" placeholder="Ano ang hinahanap mo?" onkeyup="searchFunction()">
+            <button class="close-search-btn" onclick="toggleSearch(false)">✕</button>
+        </div>
     </div>
+    <div id="searchResultGrid" class="product-grid" style="margin-top: 80px; padding: 15px;"></div>
 </div>
 
 <div class="footer-nav no-print">
