@@ -325,4 +325,20 @@ function copyNewJSON() {
     navigator.clipboard.writeText(JSON.stringify(currentLiveItems, null, 2))
     .then(() => alert("JSON Copied! Update your products.json."));
         }
+// Function para sa Search Toggle
+function toggleSearch(show) {
+    const overlay = document.getElementById('searchOverlay');
+    overlay.style.display = show ? 'block' : 'none';
+    if(show) {
+        document.getElementById('searchInput').focus();
+    } else {
+        // I-reset ang listahan kapag sinara ang search
+        document.getElementById('searchInput').value = "";
+        searchFunction();
+    }
+}
+
+// I-update ang searchFunction para kusang sumara ang overlay pag may napili (optional)
+// O panatilihin ang dati mong function, gagana pa rin 'yun.
+
       
