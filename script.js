@@ -325,20 +325,60 @@ function copyNewJSON() {
     navigator.clipboard.writeText(JSON.stringify(currentLiveItems, null, 2))
     .then(() => alert("JSON Copied! Update your products.json."));
         }
-// Function para sa Search Toggle
+// Function para Buksan/Isara ang Search Overlay
 function toggleSearch(show) {
     const overlay = document.getElementById('searchOverlay');
     overlay.style.display = show ? 'block' : 'none';
-    if(show) {
+    
+    if (show) {
         document.getElementById('searchInput').focus();
+        // Ipakita lahat ng items sa simula ng search
+        renderSearchResults(currentLiveItems);
     } else {
-        // I-reset ang listahan kapag sinara ang search
         document.getElementById('searchInput').value = "";
-        searchFunction();
     }
 }
 
-// I-update ang searchFunction para kusang sumara ang overlay pag may napili (optional)
-// O panatilihin ang dati mong function, gagana pa rin 'yun.
+// Bagong Search Function para sa Overlay
+function searchFunction() {
+    let val = document.getElementById('searchInput').value.toUpperCase();
+    
+    // I-filter ang listahan base sa pangalan ng product
+    const filtered = currentLiveItems.filter(item => 
+        item.name.toUpperCase().includes(val) || 
+        (item.description && item.description.toUpperCase().includes(val))
+    );
+    
+    renderSearchResults(filtered);
+}
+
+// Helper function para i-display ang results sa loob ng Search Overlay
+function renderSearchResults(items) {
+    const grid = document.getElementById('searchResultGrid');
+    
+    if (items.length === 0) {
+        grid.innerHTML = "<p style='text-align:center; margin-top:50px; color:#888;'>Walang nahanap na product...</p>";
+        return;
+    }
+
+    // Gagamitin natin ang displayItems logic pero ilalagay sa searchResultGrid
+    grid.innerHTML = items.map((item) => {
+        const originalIndex = currentLiveItems.findIndex(p => p.name === item.name);
+        const statusClass = item.status === "In Stock" ? "in-stock" : "out-stock";
+        
+        return `
+            <div class="product-card">
+                <img src="${item.image}" onclick="openProductView(${originalIndex})" onerror="this.src='https://via.placeholder.com/150?text=No+Image'">
+                <div onclick="openProductView(${originalIndex})" style="cursor:pointer; flex-grow:1;">
+                    <span class="status-badge ${statusClass}">${item.status}</span>
+                    <h4 style="font-size:14px; margin:5px 0;">${item.name}</h4>
+                    <div class="price-tag" style="color:#1a73e8; font-weight:bold;">₱${item.pricePiece || item.priceBox}</div>
+                </div>
+                <button class="opt-btn btn-pc" style="padding:8px; font-size:12px;" onclick="addToBasket('${item.name}', ${item.pricePiece}, 'Piece')">+ Add</button>
+            </div>
+        `;
+    }).join('');
+}
+
 
       
