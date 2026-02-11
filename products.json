@@ -98,20 +98,19 @@
     "name": "Nutella B-ready",
     "qty": "1 Pack(6pcs)",
     "weight": "22g",
-    "pricePiece": 150,
+    "pricePiece": 0,
     "pricePack": 0,
     "priceSet": 0,
-    "priceBox": 840,
-    "discounts": {
-      "packThreshold": 5,
-      "packDiscountPrice": 0,
-      "setThreshold": 3,
-      "setDiscountPrice": 0
-    },
+    "priceBox": 0,
     "status": "In Stock",
     "expiry": "2026-03-22",
     "description": "FRIDAY ONHAND ‼️\n\nLAST 373pcs ✅",
-    "image": "https://i.postimg.cc/mk8TpH40/received-1543242483631082.jpg"
+    "image": "https://i.postimg.cc/mk8TpH40/received-1543242483631082.jpg",
+    "discounts": {
+      "packThreshold": 5,
+      "packDiscountPrice": 130,
+      "setThreshold": 3,
+      "setDiscountPrice": 135
+    }
   }
 ]
-
