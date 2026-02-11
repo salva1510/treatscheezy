@@ -75,13 +75,8 @@ function displayItems(items) {
     const grid = document.getElementById('productGrid');
     grid.innerHTML = items.map((item, index) => {
         const statusClass = item.status === "In Stock" ? "in-stock" : "out-stock";
-        // B1T1 Badge Logic
-        const isB1T1 = (item.description || "").toUpperCase().includes("B1T1");
-        const promoBadge = isB1T1 ? `<div style="position:absolute; top:10px; left:10px; background:#ff4d4d; color:white; padding:4px 8px; border-radius:8px; font-size:10px; font-weight:bold; z-index:2;">BUY 1 TAKE 1</div>` : "";
-
         return `
-            <div class="product-card" style="position:relative;">
-                ${promoBadge}
+            <div class="product-card">
                 <img src="${item.image}" onclick="openProductView(${index})" onerror="this.src='https://via.placeholder.com/150?text=No+Image'">
                 <div onclick="openProductView(${index})" style="cursor:pointer; flex-grow:1;">
                     <span class="status-badge ${statusClass}">${item.status}</span>
@@ -149,29 +144,23 @@ function renderBasket() {
         let finalPrice = item.price;
         let discountApplied = false;
 
-        // B1T1 Logic: Babayaran lang ang kalahati kung divisible by 2
-        const isB1T1 = (productData && productData.description.toUpperCase().includes("B1T1"));
-        let billableCount = item.count;
-        
-        if (isB1T1) {
-            billableCount = Math.ceil(item.count / 2);
-            discountApplied = true;
-        } else if (productData && productData.discounts) {
+        if (productData && productData.discounts) {
             const d = productData.discounts;
+            // CHECKING ALL DISCOUNT TYPES
             if (item.type === 'Piece' && d.pieceThreshold > 0 && item.count >= d.pieceThreshold) { finalPrice = d.pieceDiscountPrice; discountApplied = true; }
             else if (item.type === 'Pack' && d.packThreshold > 0 && item.count >= d.packThreshold) { finalPrice = d.packDiscountPrice; discountApplied = true; }
             else if (item.type === 'Set' && d.setThreshold > 0 && item.count >= d.setThreshold) { finalPrice = d.setDiscountPrice; discountApplied = true; }
             else if (item.type === 'Box' && d.boxThreshold > 0 && item.count >= d.boxThreshold) { finalPrice = d.boxDiscountPrice; discountApplied = true; }
         }
 
-        total += finalPrice * billableCount;
+        total += finalPrice * item.count;
         html += `
         <div style="display:flex; justify-content:space-between; align-items:center; padding:10px 0; border-bottom:1px solid #eee;">
             <div style="flex: 1;">
                 <div style="font-weight:bold; font-size:14px;">${key}</div>
                 <div style="color:#28a745; font-size:12px;">
                     ₱${finalPrice.toLocaleString()} ea. 
-                    ${isB1T1 ? '<span style="color:#ff4d4d; font-weight:bold; font-size:10px;">(PROMO: BUY 1 TAKE 1)</span>' : (discountApplied ? '<span style="color:red; font-weight:bold; font-size:10px;">(DISCOUNTED)</span>' : '')}
+                    ${discountApplied ? '<span style="color:red; font-weight:bold; font-size:10px;">(DISCOUNTED)</span>' : ''}
                 </div>
             </div>
             <div style="display:flex; align-items:center; gap:8px;">
@@ -188,6 +177,152 @@ function renderBasket() {
     document.getElementById('basketTotal').innerText = "₱" + total.toLocaleString();
 }
 
-// ... (Yung ibang functions ay mananatiling pareho tulad ng sendOrder, toggleAdmin, etc.)
-// Paki-copy ang natitirang functions mula sa original mong script.js dito sa baba...
+function changeQuantity(key, delta) {
+    if (basket[key]) {
+        basket[key].count += delta;
+        if (basket[key].count <= 0) delete basket[key];
+        updateBasketCount();
+        renderBasket();
+    }
+}
 
+function removeFromBasket(key) {
+    if (confirm("Alisin ang item na ito?")) {
+        delete basket[key];
+        updateBasketCount();
+        renderBasket();
+    }
+}
+
+function updateBasketCount() {
+    let total = Object.values(basket).reduce((acc, item) => acc + item.count, 0);
+    document.getElementById('basketCount').innerText = total;
+    document.getElementById('basketFloat').style.display = total > 0 ? 'flex' : 'none';
+}
+
+function sendOrder(platform) {
+    const name = document.getElementById('customerName').value;
+    const contact = document.getElementById('customerContact').value; // NEW/RESTORED
+    const address = document.getElementById('customerAddress').value;
+    const payment = document.getElementById('paymentMethod').value; // NEW
+
+    if(!name || !contact || !address || Object.keys(basket).length === 0) return alert("Paki-puno ang lahat ng detalye!");
+    
+    let msg = `*BAGONG ORDER*\n👤 Name: ${name}\n📞 Contact: ${contact}\n📍 Addr: ${address}\n💰 Payment: ${payment}\n----------\n`;
+    // ... yung ibang logic ng message calculation ...
+
+    let total = 0;
+    
+    for (let k in basket) {
+        let item = basket[k];
+        let productData = currentLiveItems.find(p => p.name === item.originalName);
+        let finalPrice = item.price;
+        if (productData && productData.discounts) {
+            const d = productData.discounts;
+            if (item.type === 'Piece' && item.count >= d.pieceThreshold) finalPrice = d.pieceDiscountPrice;
+            if (item.type === 'Pack' && item.count >= d.packThreshold) finalPrice = d.packDiscountPrice;
+            if (item.type === 'Set' && item.count >= d.setThreshold) finalPrice = d.setDiscountPrice;
+            if (item.type === 'Box' && item.count >= d.boxThreshold) finalPrice = d.boxDiscountPrice;
+        }
+        msg += `- ${k} x ${item.count} (@₱${finalPrice.toLocaleString()})\n`;
+        total += (finalPrice * item.count);
+    }
+    msg += `----------\n💰 *TOTAL: ₱${total.toLocaleString()}*`;
+
+    if(platform === 'whatsapp') window.open(`https://wa.me/${ADMIN_PHONE}?text=${encodeURIComponent(msg)}`);
+    else { navigator.clipboard.writeText(msg); alert("Order details copied!"); window.open(`https://m.me/${FB_USERNAME}`); }
+}
+
+function toggleAdmin() {
+    if (isAdmin) { localStorage.removeItem('adminLoggedIn'); location.reload(); }
+    else if (prompt("Pass:") === "123") { localStorage.setItem('adminLoggedIn', 'true'); location.reload(); }
+}
+
+function applyAdminUI() {
+    document.getElementById('adminSection').style.display = "block";
+    document.getElementById('adminStatus').innerText = "Admin Mode";
+    document.getElementById('loginBtn').innerText = "Logout";
+}
+
+function editItem(index) {
+    const item = currentLiveItems[index];
+    document.getElementById('editIndex').value = index;
+    document.getElementById('itemName').value = item.name;
+    document.getElementById('itemQty').value = item.qty;
+    document.getElementById('itemWeight').value = item.weight;
+    document.getElementById('itemPricePiece').value = item.pricePiece;
+    document.getElementById('itemPricePack').value = item.pricePack || 0;
+    document.getElementById('itemPriceSet').value = item.priceSet || 0;
+    document.getElementById('itemPriceBox').value = item.priceBox;
+    document.getElementById('itemStatus').value = item.status;
+    document.getElementById('itemExpiry').value = item.expiry;
+    document.getElementById('itemDesc').value = item.description;
+    document.getElementById('itemImageLink').value = item.image;
+    
+    if(item.discounts) {
+        document.getElementById('pieceThreshold').value = item.discounts.pieceThreshold || 0;
+        document.getElementById('pieceDiscountPrice').value = item.discounts.pieceDiscountPrice || 0;
+        document.getElementById('packThreshold').value = item.discounts.packThreshold || 0;
+        document.getElementById('packDiscountPrice').value = item.discounts.packDiscountPrice || 0;
+        document.getElementById('setThreshold').value = item.discounts.setThreshold || 0;
+        document.getElementById('setDiscountPrice').value = item.discounts.setDiscountPrice || 0;
+        document.getElementById('boxThreshold').value = item.discounts.boxThreshold || 0;
+        document.getElementById('boxDiscountPrice').value = item.discounts.boxDiscountPrice || 0;
+    }
+    document.getElementById('addBtn').innerText = "Update & Copy JSON";
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function toggleBasketModal() {
+    const modal = document.getElementById('basketModal');
+    modal.style.display = modal.style.display === 'flex' ? 'none' : 'flex';
+    if(modal.style.display === 'flex') renderBasket();
+}
+
+function closeProductView() { document.getElementById('productViewModal').style.display = 'none'; }
+
+function searchFunction() {
+    let val = document.getElementById('searchInput').value.toUpperCase();
+    let cards = document.getElementsByClassName('product-card');
+    for (let card of cards) card.style.display = card.innerText.toUpperCase().includes(val) ? "flex" : "none";
+}
+
+function saveProduct() {
+    const idx = parseInt(document.getElementById('editIndex').value || -1);
+    const newItem = {
+        name: document.getElementById('itemName').value,
+        qty: document.getElementById('itemQty').value,
+        weight: document.getElementById('itemWeight').value,
+        pricePiece: Number(document.getElementById('itemPricePiece').value),
+        pricePack: Number(document.getElementById('itemPricePack').value),
+        priceSet: Number(document.getElementById('itemPriceSet').value),
+        priceBox: Number(document.getElementById('itemPriceBox').value),
+        status: document.getElementById('itemStatus').value,
+        expiry: document.getElementById('itemExpiry').value,
+        description: document.getElementById('itemDesc').value,
+        image: document.getElementById('itemImageLink').value,
+        discounts: {
+            pieceThreshold: Number(document.getElementById('pieceThreshold').value || 0),
+            pieceDiscountPrice: Number(document.getElementById('pieceDiscountPrice').value || 0),
+            packThreshold: Number(document.getElementById('packThreshold').value || 0),
+            packDiscountPrice: Number(document.getElementById('packDiscountPrice').value || 0),
+            setThreshold: Number(document.getElementById('setThreshold').value || 0),
+            setDiscountPrice: Number(document.getElementById('setDiscountPrice').value || 0),
+            boxThreshold: Number(document.getElementById('boxThreshold').value || 0),
+            boxDiscountPrice: Number(document.getElementById('boxDiscountPrice').value || 0)
+        }
+    };
+    if(!newItem.name) return alert("Paki-lagay ang pangalan!");
+    if (idx === -1) currentLiveItems.push(newItem);
+    else currentLiveItems[idx] = newItem;
+    displayItems(currentLiveItems);
+    copyNewJSON();
+}
+
+function addNewProduct() { saveProduct(); }
+function deleteItem(index) { if(confirm("Burahin?")) { currentLiveItems.splice(index, 1); displayItems(currentLiveItems); copyNewJSON(); } }
+function copyNewJSON() { 
+    navigator.clipboard.writeText(JSON.stringify(currentLiveItems, null, 2))
+    .then(() => alert("JSON Copied! Update your products.json."));
+        }
+      
