@@ -23,49 +23,30 @@
         <button id="loginBtn" onclick="toggleAdmin()">Admin Login</button>
     </div>
 
-    <div id="adminSection">
+    <div id="adminSection" style="display:none;">
+    <input type="hidden" id="editIndex" value="-1">
     <div class="input-group">
-        <input type="hidden" id="editIndex" value="-1"> <input type="text" id="itemName" placeholder="Product Name">
-        <div class="row">
-            <input type="text" id="itemQty" placeholder="Unit (e.g. 1 Box (36pcs))">
-            <input type="text" id="itemWeight" placeholder="Weight (e.g. 250ml)">
-        </div>
+        <input type="text" id="itemName" placeholder="Product Name">
         <div class="row">
             <input type="number" id="itemPricePiece" placeholder="Price/Piece">
-            <input type="number" id="itemPricePack" placeholder="Price/Pack"> <input type="number" id="itemPriceBox" placeholder="Price/Box">
+            <input type="number" id="itemPricePack" placeholder="Price/Pack">
+            <input type="number" id="itemPriceSet" placeholder="Price/Set">
+            <input type="number" id="itemPriceBox" placeholder="Price/Box">
         </div>
-        <div class="row">
-            <select id="itemStatus">
-                <option>In Stock</option>
-                <option>Out of Stock</option>
-            </select>
-            <input type="date" id="itemExpiry">
-        </div>
-        <div class="row">
-    <input type="number" id="itemPricePack" placeholder="Price per Pack">
-    <input type="number" id="itemPriceSet" placeholder="Price per Set">
-</div>
-<div style="background:#fff3cd; padding:10px; border-radius:10px; margin-top:10px;">
-    <p style="font-size:12px; font-weight:bold; margin-bottom:5px;">Bulk Discount Settings:</p>
-    <div class="row">
-        <input type="number" id="packThreshold" placeholder="Min Packs for Disc">
-        <input type="number" id="packDiscountPrice" placeholder="Discounted Pack Price">
-    </div>
-    <div class="row" style="margin-top:5px;">
-        <input type="number" id="setThreshold" placeholder="Min Sets for Disc">
-        <input type="number" id="setDiscountPrice" placeholder="Discounted Set Price">
-    </div>
-</div>
         
-        <textarea id="itemDesc" placeholder="Product Description/Notes..." rows="2"></textarea>
-        <input type="text" id="itemImageLink" placeholder="Image Direct Link">
-        <div style="display:flex; gap:10px;">
-            <button id="addBtn" onclick="saveProduct()" style="background:#28a745; color:white; flex:2;">Save & Copy JSON</button>
-            <button id="cancelEditBtn" onclick="clearAdminForm()" style="background:#6c757d; color:white; flex:1; display:none;">Cancel</button>
+        <div style="background:#e3f2fd; padding:10px; border-radius:10px; margin-top:10px;">
+            <p style="font-size:12px; font-weight:bold;">Piece & Box Discounts:</p>
+            <div class="row">
+                <input type="number" id="pieceThreshold" placeholder="Min Piece Qty">
+                <input type="number" id="pieceDiscountPrice" placeholder="Disc. Piece Price">
+            </div>
+            <div class="row">
+                <input type="number" id="boxThreshold" placeholder="Min Box Qty">
+                <input type="number" id="boxDiscountPrice" placeholder="Disc. Box Price">
+            </div>
         </div>
-    </div>
+        </div>
 </div>
-
 
     <div class="search-container" style="margin-top: 20px;">
         <input type="text" id="searchInput" onkeyup="searchFunction()" placeholder="Maghanap ng produkto...">
