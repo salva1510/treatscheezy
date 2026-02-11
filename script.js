@@ -6,7 +6,7 @@ let touchStartX = 0;
 let touchEndX = 0;
 
 const ADMIN_PHONE = "639153290207"; 
-const FB_USERNAME = "chee.zeeyy.2025"; 
+const FB_USERNAME = "kram.samot.2024"; 
 const JSON_URL = 'products.json'; 
 
 document.addEventListener('DOMContentLoaded', () => {

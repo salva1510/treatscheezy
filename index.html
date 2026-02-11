@@ -1,8 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <link rel="manifest" href="manifest.json">
-    <meta name="theme-color" content="#ff9800">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Treats Cheezy</title>
@@ -132,31 +130,6 @@
 </div>
 
 <script src="script.js"></script>
-    <script>
-if ('serviceWorker' in navigator) {
-  navigator.serviceWorker.register('sw.js').then(reg => {
-
-    // Force update check
-    reg.update();
-
-    // Detect new version
-    reg.addEventListener('updatefound', () => {
-      const newWorker = reg.installing;
-
-      newWorker.addEventListener('statechange', () => {
-        if (newWorker.state === 'installed') {
-
-          if (navigator.serviceWorker.controller) {
-            // NEW VERSION FOUND → RELOAD INSTANTLY
-            window.location.reload();
-          }
-        }
-      });
-    });
-
-  }).catch(err => console.log(err));
-}
-</script>
 </body>
 </html>
 
