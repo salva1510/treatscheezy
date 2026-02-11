@@ -136,5 +136,28 @@
     "expiry": "2026-03-22",
     "description": "FRIDAY ONHAND ‼️ LAST 373pcs ✅",
     "image": "https://i.postimg.cc/mk8TpH40/received-1543242483631082.jpg"
+  },
+  {
+    "name": "Cha Cha DailyNuts",
+    "qty": "20 inner per Box",
+    "weight": "350g",
+    "pricePiece": 180,
+    "pricePack": 0,
+    "priceSet": 0,
+    "priceBox": 3500,
+    "status": "In Stock",
+    "expiry": "2026-02-11",
+    "description": "AVAILABLE :\nPINK - Oatmeat yogurt\nBLUE - Gatmeal Original flavor",
+    "image": "https://i.postimg.cc/7PSSwVmL/received-2076145466556547.jpg",
+    "discounts": {
+      "pieceThreshold": 10,
+      "pieceDiscountPrice": 175,
+      "packThreshold": 0,
+      "packDiscountPrice": 0,
+      "setThreshold": 0,
+      "setDiscountPrice": 0,
+      "boxThreshold": 2,
+      "boxDiscountPrice": 3400
+    }
   }
 ]
