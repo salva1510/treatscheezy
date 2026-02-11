@@ -51,4 +51,121 @@ body {
                       radial-gradient(circle at 40% 80%, #f4a261 7px, transparent 8px);
     background-size: 200px 200px;
 }
+/* ========================= */
+/*        FULL CHEESE UI     */
+/* ========================= */
+
+/* BODY BACKGROUND */
+body {
+    background: linear-gradient(180deg, #ffd166, #ffb703) !important;
+    color: #5a3e00 !important;
+    font-family: 'Poppins', sans-serif;
+}
+
+/* Cheese holes pattern */
+body::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    background:
+      radial-gradient(circle at 15% 20%, #f4a261 12px, transparent 13px),
+      radial-gradient(circle at 70% 40%, #f4a261 18px, transparent 19px),
+      radial-gradient(circle at 40% 75%, #f4a261 14px, transparent 15px),
+      radial-gradient(circle at 85% 85%, #f4a261 10px, transparent 11px);
+    background-size: 300px 300px;
+    opacity: 0.4;
+    pointer-events: none;
+    z-index: 0;
+}
+
+/* Container floating effect */
+.container {
+    position: relative;
+    z-index: 1;
+}
+
+/* PRODUCT CARD */
+.product-card {
+    background: #fff8dc !important;
+    border-radius: 20px !important;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.15) !important;
+    transition: 0.3s ease !important;
+    border: 2px solid #ffb703 !important;
+}
+
+.product-card:hover {
+    transform: translateY(-8px) scale(1.03) !important;
+    box-shadow: 0 15px 40px rgba(0,0,0,0.25) !important;
+}
+
+/* Product Image */
+.product-card img {
+    border-bottom: 3px solid #ffb703 !important;
+}
+
+/* Title */
+.product-card h4 {
+    color: #d97706 !important;
+    font-weight: bold !important;
+}
+
+/* Details */
+.item-details-text {
+    color: #7c5c00 !important;
+}
+
+/* Status Badge */
+.status-badge.in-stock {
+    background: #ffb703 !important;
+    color: #5a3e00 !important;
+    box-shadow: 0 0 10px rgba(255,183,3,0.8);
+}
+
+.status-badge.out-stock {
+    background: #ccc !important;
+    color: #333 !important;
+}
+
+/* Buttons */
+.opt-btn,
+.btn-box,
+.btn-pc {
+    background: linear-gradient(45deg, #ffb703, #fb8500) !important;
+    color: #fff !important;
+    border: none !important;
+    border-radius: 12px !important;
+    font-weight: bold !important;
+    transition: 0.3s ease !important;
+}
+
+.opt-btn:hover,
+.btn-box:hover,
+.btn-pc:hover {
+    background: linear-gradient(45deg, #fb8500, #ffb703) !important;
+    transform: scale(1.05);
+}
+
+/* Basket Float */
+#basketFloat {
+    background: #fb8500 !important;
+    color: white !important;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.3);
+}
+
+/* Modal */
+.modal-content {
+    background: #fff8dc !important;
+    color: #5a3e00 !important;
+    border-radius: 20px !important;
+    border: 3px solid #ffb703 !important;
+}
+
+/* Checkout buttons */
+.btn-wa {
+    background: #25D366 !important;
+}
+
+.btn-msgr {
+    background: #0084ff !important;
+}
 
