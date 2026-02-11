@@ -41,6 +41,22 @@
             </select>
             <input type="date" id="itemExpiry">
         </div>
+        <div class="row">
+    <input type="number" id="itemPricePack" placeholder="Price per Pack">
+    <input type="number" id="itemPriceSet" placeholder="Price per Set">
+</div>
+<div style="background:#fff3cd; padding:10px; border-radius:10px; margin-top:10px;">
+    <p style="font-size:12px; font-weight:bold; margin-bottom:5px;">Bulk Discount Settings:</p>
+    <div class="row">
+        <input type="number" id="packThreshold" placeholder="Min Packs for Disc">
+        <input type="number" id="packDiscountPrice" placeholder="Discounted Pack Price">
+    </div>
+    <div class="row" style="margin-top:5px;">
+        <input type="number" id="setThreshold" placeholder="Min Sets for Disc">
+        <input type="number" id="setDiscountPrice" placeholder="Discounted Set Price">
+    </div>
+</div>
+        
         <textarea id="itemDesc" placeholder="Product Description/Notes..." rows="2"></textarea>
         <input type="text" id="itemImageLink" placeholder="Image Direct Link">
         <div style="display:flex; gap:10px;">
