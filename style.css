@@ -185,6 +185,20 @@ input, select, textarea { padding: 12px; border: 1px solid #ddd; border-radius: 
     box-shadow: 0 -2px 15px rgba(0,0,0,0.1);
     z-index: 1001;
 }
+.search-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: white; z-index: 9999; overflow-y: auto; }
+.search-header { position: fixed; top: 0; width: 100%; background: white; padding: 10px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); display: flex; align-items: center; box-sizing: border-box; }
+.search-bar-wrapper { display: flex; width: 100%; gap: 10px; }
+.search-bar-wrapper input { flex: 1; padding: 12px; border-radius: 20px; border: 1px solid #ddd; }
+.close-search-btn { background: #ff4d4d; color: white; border: none; width: 40px; height: 40px; border-radius: 50%; font-weight: bold; font-size: 20px; }
+
+.footer-nav { position: fixed; bottom: 0; left: 0; width: 100%; height: 60px; background: white; display: flex; justify-content: space-around; align-items: center; border-top: 1px solid #ddd; z-index: 1000; }
+.nav-item { text-align: center; font-size: 10px; color: #666; cursor: pointer; }
+.nav-item span { font-size: 20px; }
+.nav-item p { margin: 0; }
+
+.container { padding-bottom: 70px; }
+#basketFloat { bottom: 70px !important; }
+
 
 
 
