@@ -1,0 +1,26 @@
+body { font-family: sans-serif; background: #f4f4f4; margin: 0; padding-bottom: 80px; }
+.container { max-width: 600px; margin: auto; background: white; padding: 15px; }
+
+/* ORIGINAL SLIDER CSS */
+.slider-container { width: 100%; height: 250px; overflow: hidden; position: relative; border-radius: 10px; }
+.slider-track { display: flex; transition: 0.5s; height: 100%; }
+.slider-item { min-width: 100%; position: relative; }
+.slider-item img { width: 100%; height: 100%; object-fit: cover; }
+.slider-item p { position: absolute; bottom: 0; background: rgba(0,0,0,0.6); color: white; width: 100%; padding: 5px; text-align: center; }
+
+/* PRODUCT CARD CSS */
+.product-grid { display: flex; flex-wrap: wrap; gap: 10px; justify-content: center; margin-top: 20px; }
+.product-card { width: 160px; border: 1px solid #eee; padding: 10px; border-radius: 10px; text-align: center; }
+.product-card img { width: 100%; border-radius: 8px; }
+.opt-btn { width: 100%; margin-top: 5px; padding: 5px; border: none; border-radius: 5px; color: white; background: #007bff; cursor: pointer; }
+
+/* NEW FOOTER & SEARCH OVERLAY */
+.footer-nav { position: fixed; bottom: 0; width: 100%; background: white; display: flex; justify-content: space-around; padding: 10px 0; border-top: 1px solid #ddd; z-index: 1000; }
+.nav-item { text-align: center; font-size: 12px; cursor: pointer; }
+.search-overlay { display: none; position: fixed; top: 0; width: 100%; height: 100%; background: white; z-index: 2000; overflow-y: auto; }
+.search-header { position: fixed; top: 0; width: 100%; background: white; padding: 10px; display: flex; box-sizing: border-box; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
+.close-search-btn { background: red; color: white; border: none; width: 40px; height: 40px; border-radius: 50%; }
+
+#basketFloat { position: fixed; bottom: 80px; right: 20px; background: #28a745; color: white; width: 50px; height: 50px; border-radius: 50%; display: flex; justify-content: center; align-items: center; z-index: 999; }
+.modal { display: none; position: fixed; top: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 3000; justify-content: center; align-items: center; }
+.modal-content { background: white; padding: 20px; border-radius: 15px; width: 90%; max-width: 400px; max-height: 80%; overflow-y: auto; }
