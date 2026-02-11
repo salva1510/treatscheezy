@@ -72,7 +72,7 @@
     "name": "Simply Cheetos Puffs",
     "qty": "1box(12packs)",
     "weight": "226grams",
-    "pricePiece": ,
+    "pricePiece": 0,
     "pricePack": 120,
     "priceSet": 0,
     "priceBox": 1300,
