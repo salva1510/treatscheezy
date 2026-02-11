@@ -1,4 +1,4 @@
-const CACHE_NAME = 'treats-cheezy-v1';
+const CACHE_NAME = 'treats-cheezy-v2'; // Change version kapag may update
 const FILES_TO_CACHE = [
   '/',
   '/index.html',
@@ -8,28 +8,49 @@ const FILES_TO_CACHE = [
   '/manifest.json'
 ];
 
+// INSTALL
 self.addEventListener('install', event => {
+  self.skipWaiting(); // activate agad
   event.waitUntil(
-    caches.open(CACHE_NAME).then(cache => cache.addAll(FILES_TO_CACHE))
+    caches.open(CACHE_NAME)
+      .then(cache => cache.addAll(FILES_TO_CACHE))
   );
-  self.skipWaiting();
 });
 
+// ACTIVATE
 self.addEventListener('activate', event => {
   event.waitUntil(
     caches.keys().then(keys =>
-      Promise.all(keys.map(k => {
-        if (k !== CACHE_NAME) return caches.delete(k);
-      }))
+      Promise.all(
+        keys.map(key => {
+          if (key !== CACHE_NAME) {
+            return caches.delete(key);
+          }
+        })
+      )
     )
   );
-  self.clients.claim();
+  self.clients.claim(); // take control agad
 });
 
+// FETCH (Network first for JSON, Cache first for static)
 self.addEventListener('fetch', event => {
-  event.respondWith(
-    caches.match(event.request).then(res => {
-      return res || fetch(event.request);
-    })
-  );
+  if (event.request.url.includes('products.json')) {
+    // ALWAYS GET LATEST PRODUCTS
+    event.respondWith(
+      fetch(event.request)
+        .then(response => {
+          return caches.open(CACHE_NAME).then(cache => {
+            cache.put(event.request, response.clone());
+            return response;
+          });
+        })
+        .catch(() => caches.match(event.request))
+    );
+  } else {
+    event.respondWith(
+      caches.match(event.request)
+        .then(response => response || fetch(event.request))
+    );
+  }
 });
