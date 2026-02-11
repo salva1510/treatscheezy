@@ -137,3 +137,25 @@ body {
 .btn-pc:hover {
     background: #ff1f1f !important;
 }
+/* ===== FIX PRODUCT VIEW MODAL ===== */
+
+.modal-content {
+    background: #1f1f1f !important;
+    color: #ffffff !important;
+}
+
+#viewDesc {
+    color: #dddddd !important;
+}
+
+#viewQty,
+#viewWeight,
+#viewExpiry {
+    color: #cccccc !important;
+}
+
+#viewPriceContainer button {
+    background: #e50914 !important;
+    color: white !important;
+    border: none !important;
+}
