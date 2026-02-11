@@ -7,20 +7,20 @@
     "pricePack": 0,
     "priceSet": 0,
     "priceBox": 1500,
+    "status": "In Stock",
+    "expiry": "",
+    "description": "Perfect for mango float and other desserts.",
+    "image": "https://i.postimg.cc/Wz2d80zm/received-4391901104399999.jpg",
     "discounts": {
-      "pieceThreshold": 0,
-      "pieceDiscountPrice": 0,
+      "pieceThreshold": 6,
+      "pieceDiscountPrice": 45,
       "packThreshold": 0,
       "packDiscountPrice": 0,
       "setThreshold": 0,
       "setDiscountPrice": 0,
-      "boxThreshold": 0,
-      "boxDiscountPrice": 0
-    },
-    "status": "In Stock",
-    "expiry": "",
-    "description": "Perfect for mango float and other desserts.",
-    "image": "https://i.postimg.cc/Wz2d80zm/received-4391901104399999.jpg"
+      "boxThreshold": 6,
+      "boxDiscountPrice": 1400
+    }
   },
   {
     "name": "Maximo Choco",
