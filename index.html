@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Treats Cheezy</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div class="container">
+    <h2>Treats Cheesy Pricelist</h2>
+
+    <div class="slider-container no-print">
+        <div id="imageSlider" class="slider-track"></div>
+        <button class="slider-btn prev" onclick="moveSlider(-1)">&#10094;</button>
+        <button class="slider-btn next" onclick="moveSlider(1)">&#10095;</button>
+        <div id="sliderDots" class="slider-dots"></div>
+    </div>
+
+    <div class="admin-header no-print">
+        <span id="adminStatus">Customer Mode</span>
+        <button id="loginBtn" onclick="toggleAdmin()">Admin Login</button>
+    </div>
+
+    <div id="adminSection" style="display:none;">
+        <div class="input-group">
+            <input type="text" id="itemName" placeholder="Product Name">
+            <div class="row">
+                <input type="text" id="itemQty" placeholder="Unit">
+                <input type="text" id="itemWeight" placeholder="Weight">
+            </div>
+            <div class="row">
+                <input type="number" id="itemPricePiece" placeholder="Price/Pc">
+                <input type="number" id="itemPriceBox" placeholder="Price/Box">
+            </div>
+            <textarea id="itemDesc" placeholder="Description"></textarea>
+            <input type="text" id="itemImageLink" placeholder="Image URL">
+            <button onclick="addNewProduct()">Add Product</button>
+        </div>
+    </div>
+
+    <div id="productGrid" class="product-grid"></div>
+</div>
+
+<div id="searchOverlay" class="search-overlay no-print">
+    <div class="search-header">
+        <div class="search-bar-wrapper">
+            <input type="text" id="searchInput" placeholder="Mag-search dito..." onkeyup="searchFunction()">
+            <button class="close-search-btn" onclick="toggleSearch(false)">✕</button>
+        </div>
+    </div>
+    <div id="searchResultGrid" class="product-grid" style="margin-top: 80px; padding: 15px;"></div>
+</div>
+
+<div class="footer-nav no-print">
+    <div class="nav-item" onclick="window.scrollTo({top: 0, behavior: 'smooth'})">
+        <span>🏠</span><p>Home</p>
+    </div>
+    <div class="nav-item" onclick="toggleSearch(true)">
+        <span>🔍</span><p>Search</p>
+    </div>
+    <div class="nav-item" onclick="alert('Categories soon!')">
+        <span>📦</span><p>Category</p>
+    </div>
+    <div class="nav-item" onclick="window.open('https://m.me/kram.samot.2024')">
+        <span>📞</span><p>Contact</p>
+    </div>
+</div>
+
+<div id="basketFloat" onclick="toggleBasketModal()">
+    <div id="basketCount">0</div>
+    🛒
+</div>
+
+<div id="productViewModal" class="modal" onclick="closeProductView()">
+    <div class="modal-content" onclick="event.stopPropagation()">
+        <img id="viewImage" src="" style="width:100%; border-radius:15px; margin-bottom:15px;">
+        <h3 id="viewName"></h3>
+        <p id="viewDesc"></p>
+        <div id="viewQty"></div>
+        <div id="viewWeight"></div>
+        <div id="viewStatus"></div>
+        <div id="viewPriceContainer" style="display:flex; gap:10px; margin-top:15px;"></div>
+        <button onclick="closeProductView()" style="width:100%; margin-top:10px;">Isara</button>
+    </div>
+</div>
+
+<div id="basketModal" class="modal" onclick="toggleBasketModal()">
+    <div class="modal-content" onclick="event.stopPropagation()">
+        <h3>🛒 Basket</h3>
+        <div class="input-group">
+            <input type="text" id="customerName" placeholder="Full Name">
+            <input type="number" id="customerContact" placeholder="Contact Number">
+            <textarea id="customerAddress" placeholder="Address"></textarea>
+            <select id="paymentMethod">
+                <option>GCash</option>
+                <option>GCash upon Pick up</option>
+                <option>COD</option>
+            </select>
+        </div>
+        <div id="basketList"></div>
+        <div class="total-section">TOTAL: <span id="basketTotal">₱0</span></div>
+        <button onclick="sendOrder('messenger')" style="width:100%; background:#007bff; color:white; padding:12px; border:none; border-radius:8px; cursor:pointer;">Order via Messenger</button>
+    </div>
+</div>
+
+<script src="script.js"></script>
+</body>
+                      </html>
+
