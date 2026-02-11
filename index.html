@@ -128,7 +128,33 @@
         </div>
     </div>
 </div>
+    
+<div id="searchOverlay" class="search-overlay no-print">
+    <div class="search-bar-container">
+        <input type="text" id="searchInput" placeholder="Ano ang hinahanap mo?" onkeyup="searchFunction()">
+        <button onclick="toggleSearch(false)">X</button>
+    </div>
+</div>
 
+<div class="footer-nav no-print">
+    <div class="nav-item" onclick="window.scrollTo({top: 0, behavior: 'smooth'})">
+        <span class="nav-icon">🏠</span>
+        <span class="nav-label">Home</span>
+    </div>
+    <div class="nav-item" onclick="toggleSearch(true)">
+        <span class="nav-icon">🔍</span>
+        <span class="nav-label">Search</span>
+    </div>
+    <div class="nav-item" onclick="alert('Categories coming soon!')">
+        <span class="nav-icon">📦</span>
+        <span class="nav-label">Category</span>
+    </div>
+    <div class="nav-item" onclick="window.open('https://m.me/kram.samot.2024')">
+        <span class="nav-icon">📞</span>
+        <span class="nav-label">Contact</span>
+    </div>
+</div>
+    
 <script src="script.js"></script>
 </body>
 </html>
