@@ -135,9 +135,24 @@
     <script>
 if ('serviceWorker' in navigator) {
   window.addEventListener('load', () => {
-    navigator.serviceWorker.register('sw.js')
-      .then(reg => console.log('Service Worker registered', reg))
-      .catch(err => console.log('SW registration failed', err));
+    navigator.serviceWorker.register('sw.js').then(reg => {
+
+      // AUTO UPDATE CHECK
+      setInterval(() => {
+        reg.update();
+      }, 30000); // check every 30 seconds
+
+      reg.onupdatefound = () => {
+        const newWorker = reg.installing;
+        newWorker.onstatechange = () => {
+          if (newWorker.state === 'installed' && navigator.serviceWorker.controller) {
+            // Auto reload kapag may bagong version
+            window.location.reload();
+          }
+        };
+      };
+
+    }).catch(err => console.log(err));
   });
 }
 </script>
