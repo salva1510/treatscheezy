@@ -202,10 +202,15 @@ function updateBasketCount() {
 
 function sendOrder(platform) {
     const name = document.getElementById('customerName').value;
+    const contact = document.getElementById('customerContact').value; // NEW/RESTORED
     const address = document.getElementById('customerAddress').value;
-    if(!name || !address || Object.keys(basket).length === 0) return alert("Paki-puno ang details!");
+    const payment = document.getElementById('paymentMethod').value; // NEW
+
+    if(!name || !contact || !address || Object.keys(basket).length === 0) return alert("Paki-puno ang lahat ng detalye!");
     
-    let msg = `*BAGONG ORDER*\n👤 Name: ${name}\n📍 Addr: ${address}\n----------\n`;
+    let msg = `*BAGONG ORDER*\n👤 Name: ${name}\n📞 Contact: ${contact}\n📍 Addr: ${address}\n💰 Payment: ${payment}\n----------\n`;
+    // ... yung ibang logic ng message calculation ...
+
     let total = 0;
     
     for (let k in basket) {
