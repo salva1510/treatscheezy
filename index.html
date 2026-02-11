@@ -134,26 +134,27 @@
 <script src="script.js"></script>
     <script>
 if ('serviceWorker' in navigator) {
-  window.addEventListener('load', () => {
-    navigator.serviceWorker.register('sw.js').then(reg => {
+  navigator.serviceWorker.register('sw.js').then(reg => {
 
-      // AUTO UPDATE CHECK
-      setInterval(() => {
-        reg.update();
-      }, 30000); // check every 30 seconds
+    // Force update check
+    reg.update();
 
-      reg.onupdatefound = () => {
-        const newWorker = reg.installing;
-        newWorker.onstatechange = () => {
-          if (newWorker.state === 'installed' && navigator.serviceWorker.controller) {
-            // Auto reload kapag may bagong version
+    // Detect new version
+    reg.addEventListener('updatefound', () => {
+      const newWorker = reg.installing;
+
+      newWorker.addEventListener('statechange', () => {
+        if (newWorker.state === 'installed') {
+
+          if (navigator.serviceWorker.controller) {
+            // NEW VERSION FOUND → RELOAD INSTANTLY
             window.location.reload();
           }
-        };
-      };
+        }
+      });
+    });
 
-    }).catch(err => console.log(err));
-  });
+  }).catch(err => console.log(err));
 }
 </script>
 </body>
