@@ -8,10 +8,14 @@
     "priceSet": 0,
     "priceBox": 1500,
     "discounts": {
-      "packThreshold": 5,
+      "pieceThreshold": 0,
+      "pieceDiscountPrice": 0,
+      "packThreshold": 0,
       "packDiscountPrice": 0,
-      "setThreshold": 3,
-      "setDiscountPrice": 0
+      "setThreshold": 0,
+      "setDiscountPrice": 0,
+      "boxThreshold": 0,
+      "boxDiscountPrice": 0
     },
     "status": "In Stock",
     "expiry": "",
@@ -27,10 +31,14 @@
     "priceSet": 0,
     "priceBox": 350,
     "discounts": {
-      "packThreshold": 5,
+      "pieceThreshold": 0,
+      "pieceDiscountPrice": 0,
+      "packThreshold": 0,
       "packDiscountPrice": 0,
-      "setThreshold": 3,
-      "setDiscountPrice": 0
+      "setThreshold": 0,
+      "setDiscountPrice": 0,
+      "boxThreshold": 0,
+      "boxDiscountPrice": 0
     },
     "status": "In Stock",
     "expiry": "",
@@ -46,10 +54,14 @@
     "priceSet": 0,
     "priceBox": 2000,
     "discounts": {
-      "packThreshold": 5,
+      "pieceThreshold": 0,
+      "pieceDiscountPrice": 0,
+      "packThreshold": 0,
       "packDiscountPrice": 0,
-      "setThreshold": 3,
-      "setDiscountPrice": 0
+      "setThreshold": 0,
+      "setDiscountPrice": 0,
+      "boxThreshold": 0,
+      "boxDiscountPrice": 0
     },
     "status": "In Stock",
     "expiry": "2026-08-31",
@@ -65,10 +77,14 @@
     "priceSet": 0,
     "priceBox": 1300,
     "discounts": {
-      "packThreshold": 5,
+      "pieceThreshold": 0,
+      "pieceDiscountPrice": 0,
+      "packThreshold": 0,
       "packDiscountPrice": 0,
-      "setThreshold": 3,
-      "setDiscountPrice": 0
+      "setThreshold": 0,
+      "setDiscountPrice": 0,
+      "boxThreshold": 0,
+      "boxDiscountPrice": 0
     },
     "status": "In Stock",
     "expiry": "2026-10-31",
@@ -84,10 +100,14 @@
     "priceSet": 0,
     "priceBox": 0,
     "discounts": {
-      "packThreshold": 5,
+      "pieceThreshold": 0,
+      "pieceDiscountPrice": 0,
+      "packThreshold": 0,
       "packDiscountPrice": 0,
-      "setThreshold": 3,
-      "setDiscountPrice": 0
+      "setThreshold": 0,
+      "setDiscountPrice": 0,
+      "boxThreshold": 0,
+      "boxDiscountPrice": 0
     },
     "status": "In Stock",
     "expiry": "",
@@ -99,18 +119,22 @@
     "qty": "1 Pack(6pcs)",
     "weight": "22g",
     "pricePiece": 0,
-    "pricePack": 140,
+    "pricePack": 150,
     "priceSet": 0,
     "priceBox": 0,
+    "discounts": {
+      "pieceThreshold": 0,
+      "pieceDiscountPrice": 0,
+      "packThreshold": 5,
+      "packDiscountPrice": 140,
+      "setThreshold": 0,
+      "setDiscountPrice": 0,
+      "boxThreshold": 0,
+      "boxDiscountPrice": 0
+    },
     "status": "In Stock",
     "expiry": "2026-03-22",
-    "description": "FRIDAY ONHAND ‼️\n\nLAST 373pcs ✅",
-    "image": "https://i.postimg.cc/mk8TpH40/received-1543242483631082.jpg",
-    "discounts": {
-      "packThreshold": 5,
-      "packDiscountPrice": 130,
-      "setThreshold": 3,
-      "setDiscountPrice": 135
-    }
+    "description": "FRIDAY ONHAND ‼️ LAST 373pcs ✅",
+    "image": "https://i.postimg.cc/mk8TpH40/received-1543242483631082.jpg"
   }
 ]
