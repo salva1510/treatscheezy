@@ -1,11 +1,11 @@
 {
   "name": "Treats Cheezy",
   "short_name": "Treats",
-  "start_url": "index.html",
+  "start_url": "./index.html",
   "display": "standalone",
-  "background_color": "#ffffff",
-  "theme_color": "#ff9800",
-  "description": "Treats Cheezy Pricelist & Ordering App",
+  "background_color": "#141414",
+  "theme_color": "#e50914",
+  "scope": "./",
   "icons": [
     {
       "src": "icon-192.png",
