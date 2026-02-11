@@ -159,5 +159,97 @@
       "boxThreshold": 2,
       "boxDiscountPrice": 3400
     }
+  },
+  {
+    "name": "Kewpie Mayo",
+    "qty": "20 inner per Box",
+    "weight": "500g",
+    "pricePiece": 200,
+    "pricePack": 0,
+    "priceSet": 0,
+    "priceBox": 3600,
+    "status": "In Stock",
+    "expiry": "2026-08-31",
+    "description": "Naka Sale kaya Order na Baka maubusan kapa",
+    "image": "https://i.postimg.cc/wx48ccgb/received-915427217637566.jpg",
+    "discounts": {
+      "pieceThreshold": 10,
+      "pieceDiscountPrice": 190,
+      "packThreshold": 0,
+      "packDiscountPrice": 0,
+      "setThreshold": 0,
+      "setDiscountPrice": 0,
+      "boxThreshold": 2,
+      "boxDiscountPrice": 3500
+    }
+  },
+  {
+    "name": "Polar Bear Evaporada",
+    "qty": "48 inner per Box",
+    "weight": "400g",
+    "pricePiece": 0,
+    "pricePack": 0,
+    "priceSet": 0,
+    "priceBox": 2000,
+    "status": "In Stock",
+    "expiry": "2026-05-25",
+    "description": "",
+    "image": "https://i.postimg.cc/QCdBLgyk/received-926870379695826.jpg",
+    "discounts": {
+      "pieceThreshold": 0,
+      "pieceDiscountPrice": 0,
+      "packThreshold": 0,
+      "packDiscountPrice": 0,
+      "setThreshold": 0,
+      "setDiscountPrice": 0,
+      "boxThreshold": 2,
+      "boxDiscountPrice": 1900
+    }
+  },
+  {
+    "name": "Kewpie Roasted Sesame",
+    "qty": "9 inner per Box",
+    "weight": "1L",
+    "pricePiece": 400,
+    "pricePack": 0,
+    "priceSet": 0,
+    "priceBox": 3500,
+    "status": "In Stock",
+    "expiry": "2026-10-24",
+    "description": "",
+    "image": "https://i.postimg.cc/x1c4fWmS/received-3768768146752786.jpg",
+    "discounts": {
+      "pieceThreshold": 5,
+      "pieceDiscountPrice": 390,
+      "packThreshold": 0,
+      "packDiscountPrice": 0,
+      "setThreshold": 0,
+      "setDiscountPrice": 0,
+      "boxThreshold": 2,
+      "boxDiscountPrice": 3400
+    }
+  },
+  {
+    "name": "Vida Hotdog Regular",
+    "qty": "(1pack)44pcs",
+    "weight": "1kg",
+    "pricePiece": 0,
+    "pricePack": 150,
+    "priceSet": 0,
+    "priceBox": 0,
+    "status": "In Stock",
+    "expiry": "2026-10-24",
+    "description": "50% OFF Limited Stock Only ",
+    "image": "https://i.postimg.cc/jdFr46QC/received-1203704928616411.jpg",
+    "discounts": {
+      "pieceThreshold": 0,
+      "pieceDiscountPrice": 0,
+      "packThreshold": 3,
+      "packDiscountPrice": 145,
+      "setThreshold": 0,
+      "setDiscountPrice": 0,
+      "boxThreshold": 0,
+      "boxDiscountPrice": 0
+    }
   }
 ]
