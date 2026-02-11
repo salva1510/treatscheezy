@@ -274,5 +274,28 @@
       "boxThreshold": 0,
       "boxDiscountPrice": 0
     }
+  },
+  {
+    "name": "PF NUGGETS CHEESE",
+    "qty": "Buy 1 take 1",
+    "weight": "",
+    "pricePiece": 150,
+    "pricePack": 0,
+    "priceSet": 0,
+    "priceBox": 0,
+    "status": "In Stock",
+    "expiry": "2026-03-11",
+    "description": "Promo Sale",
+    "image": "https://i.postimg.cc/6Qv2XLfk/Screenshot-2026-02-11-17-59-38-010-com-miui-gallery.jpg",
+    "discounts": {
+      "pieceThreshold": 2,
+      "pieceDiscountPrice": 150,
+      "packThreshold": 0,
+      "packDiscountPrice": 0,
+      "setThreshold": 0,
+      "setDiscountPrice": 0,
+      "boxThreshold": 0,
+      "boxDiscountPrice": 0
+    }
   }
 ]
