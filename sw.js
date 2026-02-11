@@ -1,4 +1,5 @@
-const CACHE_NAME = 'treats-cheezy-v2'; // Change version kapag may update
+const CACHE_NAME = 'treats-cheezy-v3';
+
 const FILES_TO_CACHE = [
   '/',
   '/index.html',
@@ -10,10 +11,11 @@ const FILES_TO_CACHE = [
 
 // INSTALL
 self.addEventListener('install', event => {
-  self.skipWaiting(); // activate agad
+  self.skipWaiting(); // activate immediately
   event.waitUntil(
-    caches.open(CACHE_NAME)
-      .then(cache => cache.addAll(FILES_TO_CACHE))
+    caches.open(CACHE_NAME).then(cache => {
+      return cache.addAll(FILES_TO_CACHE);
+    })
   );
 });
 
@@ -30,13 +32,14 @@ self.addEventListener('activate', event => {
       )
     )
   );
-  self.clients.claim(); // take control agad
+  return self.clients.claim();
 });
 
-// FETCH (Network first for JSON, Cache first for static)
+// FETCH STRATEGY
 self.addEventListener('fetch', event => {
+
+  // ALWAYS GET LATEST JSON
   if (event.request.url.includes('products.json')) {
-    // ALWAYS GET LATEST PRODUCTS
     event.respondWith(
       fetch(event.request)
         .then(response => {
@@ -47,10 +50,13 @@ self.addEventListener('fetch', event => {
         })
         .catch(() => caches.match(event.request))
     );
-  } else {
-    event.respondWith(
-      caches.match(event.request)
-        .then(response => response || fetch(event.request))
-    );
+    return;
   }
+
+  // Static files
+  event.respondWith(
+    caches.match(event.request).then(response => {
+      return response || fetch(event.request);
+    })
+  );
 });
