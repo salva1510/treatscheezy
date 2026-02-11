@@ -1,5 +1,4 @@
-const CACHE_NAME = 'treats-cheezy-v4';
-
+const CACHE_NAME = 'treats-cheezy-v1';
 const FILES_TO_CACHE = [
   '/',
   '/index.html',
@@ -9,54 +8,28 @@ const FILES_TO_CACHE = [
   '/manifest.json'
 ];
 
-// INSTALL
 self.addEventListener('install', event => {
-  self.skipWaiting(); // activate immediately
   event.waitUntil(
-    caches.open(CACHE_NAME).then(cache => {
-      return cache.addAll(FILES_TO_CACHE);
-    })
+    caches.open(CACHE_NAME).then(cache => cache.addAll(FILES_TO_CACHE))
   );
+  self.skipWaiting();
 });
 
-// ACTIVATE
 self.addEventListener('activate', event => {
   event.waitUntil(
     caches.keys().then(keys =>
-      Promise.all(
-        keys.map(key => {
-          if (key !== CACHE_NAME) {
-            return caches.delete(key);
-          }
-        })
-      )
+      Promise.all(keys.map(k => {
+        if (k !== CACHE_NAME) return caches.delete(k);
+      }))
     )
   );
-  return self.clients.claim();
+  self.clients.claim();
 });
 
-// FETCH STRATEGY
 self.addEventListener('fetch', event => {
-
-  // ALWAYS GET LATEST JSON
-  if (event.request.url.includes('products.json')) {
-    event.respondWith(
-      fetch(event.request)
-        .then(response => {
-          return caches.open(CACHE_NAME).then(cache => {
-            cache.put(event.request, response.clone());
-            return response;
-          });
-        })
-        .catch(() => caches.match(event.request))
-    );
-    return;
-  }
-
-  // Static files
   event.respondWith(
-    caches.match(event.request).then(response => {
-      return response || fetch(event.request);
+    caches.match(event.request).then(res => {
+      return res || fetch(event.request);
     })
   );
 });
