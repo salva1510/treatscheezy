@@ -129,4 +129,17 @@ body::before {
 .floating-chat:hover {
     transform: scale(1.1);
 }
+.stock-badge {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    padding: 4px 8px;
+    border-radius: 5px;
+    font-size: 10px;
+    font-weight: bold;
+    text-transform: uppercase;
+}
+.status-ok { background: #d4edda; color: #155724; }
+.status-low { background: #f8d7da; color: #721c24; }
+
 
