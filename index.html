@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#ff9800">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Treats Cheezy</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div class="container">
+    <h2>Treats Cheesy Pricelist</h2>
+
+    <div class="slider-container no-print">
+        <div id="imageSlider" class="slider-track"></div>
+        <button class="slider-btn prev" onclick="moveSlider(-1)">&#10094;</button>
+        <button class="slider-btn next" onclick="moveSlider(1)">&#10095;</button>
+        <div id="sliderDots" class="slider-dots"></div>
+    </div>
+
+    <div class="admin-header no-print">
+        <span id="adminStatus">Customer Mode</span>
+        <button id="loginBtn" onclick="toggleAdmin()">Admin Login</button>
+    </div>
+
+    <div id="adminSection" style="display:none;">
+        <div class="input-group">
+            <input type="hidden" id="editIndex" value="-1">
+            <input type="text" id="itemName" placeholder="Product Name">
+            
+            <select id="itemCategory">
+                <option value="Cheese">Cheese</option>
+                <option value="Foods">Foods</option>
+                <option value="Drink">Drink</option>
+            </select>
+
+            <input type="text" id="itemQty" placeholder="Qty (e.g. 1 Box)">
+            <input type="text" id="itemWeight" placeholder="Weight (e.g. 900g)">
+            <input type="number" id="itemPricePiece" placeholder="Price per Piece">
+            <input type="number" id="itemPricePack" placeholder="Price per Pack">
+            <input type="number" id="itemPriceSet" placeholder="Price per Set">
+            <input type="number" id="itemPriceBox" placeholder="Price per Box">
+            
+            <select id="itemStatus">
+                <option value="In Stock">In Stock</option>
+                <option value="Low Stock">Low Stock</option>
+                <option value="Out of Stock">Out of Stock</option>
+            </select>
+            
+            <input type="text" id="itemExpiry" placeholder="Expiry Date">
+            <textarea id="itemDesc" placeholder="Description" rows="2"></textarea>
+            <input type="text" id="itemImage" placeholder="Image URL (Postimg link)">
+
+            <h4 style="margin:10px 0 5px; color:#5a3e00;">Bulk Discounts</h4>
+            <div style="display:grid; grid-template-columns: 1fr 1fr; gap:5px;">
+                <input type="number" id="pieceThreshold" placeholder="Min Pcs">
+                <input type="number" id="pieceDiscountPrice" placeholder="Disc Price/Pc">
+                <input type="number" id="packThreshold" placeholder="Min Packs">
+                <input type="number" id="packDiscountPrice" placeholder="Disc Price/Pack">
+                <input type="number" id="setThreshold" placeholder="Min Sets">
+                <input type="number" id="setDiscountPrice" placeholder="Disc Price/Set">
+                <input type="number" id="boxThreshold" placeholder="Min Boxes">
+                <input type="number" id="boxDiscountPrice" placeholder="Disc Price/Box">
+            </div>
+
+            <button id="addBtn" onclick="saveItem()">Add Item & Copy JSON</button>
+        </div>
+    </div>
+
+    <div class="search-box no-print">
+        <input type="text" id="searchInput" onkeyup="searchFunction()" placeholder="Maghanap ng produkto...">
+    </div>
+
+    <div class="category-filter no-print">
+        <button class="cat-btn active" onclick="filterCategory('All', this)">All</button>
+        <button class="cat-btn" onclick="filterCategory('Cheese', this)">Cheese</button>
+        <button class="cat-btn" onclick="filterCategory('Foods', this)">Foods</button>
+        <button class="cat-btn" onclick="filterCategory('Drink', this)">Drink</button>
+    </div>
+
+    <div id="productGrid" class="product-grid"></div>
+</div>
+
+<button class="basket-btn no-print" onclick="toggleBasketModal()">
+    🛒 <span id="basketCount">0</span>
+</button>
+
+<a href="https://m.me/chee.zeeyy.2025" target="_blank" class="floating-chat no-print">
+    <img src="https://upload.wikimedia.org/wikipedia/commons/b/be/Facebook_Messenger_logo_2020.svg" width="35" height="35">
+</a>
+
+<div id="productViewModal" class="modal" onclick="closeProductView()">
+    <div class="modal-content" onclick="event.stopPropagation()">
+        <img id="viewImg" style="width:100%; border-radius:10px; margin-bottom:15px;">
+        <h3 id="viewTitle" style="margin:0;"></h3>
+        <p id="viewDesc" style="color:#666; font-size:14px; margin:10px 0;"></p>
+        <button onclick="closeProductView()" style="width:100%; padding:10px; border:none; background:none; cursor:pointer;">Isara</button>
+    </div>
+</div>
+
+<div id="basketModal" class="modal" onclick="toggleBasketModal()">
+    <div class="modal-content" onclick="event.stopPropagation()">
+        <h3>🛒 Checkout Details</h3>
+        <div class="delivery-info">🚚 Deliveries via Lalamove. SF paid by customer.</div>
+        <div class="input-group">
+            <input type="text" id="customerName" placeholder="Full Name">
+            <input type="number" id="customerContact" placeholder="Contact Number">
+            <textarea id="customerAddress" placeholder="Complete Address" rows="2"></textarea>
+            <select id="paymentMethod">
+                <option value="GCash">GCash</option>
+                <option value="Maya">Maya</option>
+                <option value="COD">Cash on Delivery (COD)</option>
+                <option value="GCash-Pickup">GCash upon Pick up</option>
+            </select>
+        </div>
+        <div id="basketList"></div>
+        <div class="total-section" style="display:flex; justify-content:space-between; font-weight:bold; padding:15px 0;">
+            <span>TOTAL:</span><span id="basketTotal">₱0</span>
+        </div>
+        <div class="checkout-footer" style="display:flex; gap:10px;">
+            <button onclick="sendOrder('whatsapp')" class="btn-wa">WhatsApp</button>
+            <button onclick="sendOrder('messenger')" class="btn-msgr">Messenger</button>
+        </div>
+    </div>
+</div>
+
+<script src="script.js"></script>
+</body>
+          </html>
+              
