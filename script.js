@@ -188,6 +188,10 @@ function addToBasket(name, price, type) {
     const key = `${name} (${type})`;
     basket[key] = basket[key] ? { ...basket[key], count: basket[key].count + 1 } : { price, count: 1, type, originalName: name };
     updateBasketCount();
+    document.getElementById('basketFloat').classList.add('pulse');
+setTimeout(() => {
+    document.getElementById('basketFloat').classList.remove('pulse');
+}, 400);
     document.getElementById('basketFloat').style.display = 'flex';
 }
 
