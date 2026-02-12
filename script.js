@@ -47,6 +47,16 @@ function displayItems(items) {
         // Find real index in currentLiveItems for editing/deleting
         const realIndex = currentLiveItems.findIndex(p => p.name === item.name);
         const statusClass = item.status === "In Stock" ? "in-stock" : "out-stock";
+        let expiryWarning = '';
+if (item.expiry) {
+    const today = new Date();
+    const expiryDate = new Date(item.expiry);
+    const diffDays = (expiryDate - today) / (1000 * 60 * 60 * 24);
+
+    if (diffDays <= 30 && diffDays > 0) {
+        expiryWarning = `<div style="color:#dc3545; font-size:11px; font-weight:bold;">⏳ Expiring Soon</div>`;
+    }
+}
         return `
             <div class="product-card">
                 <img src="${item.image}" onclick="openProductViewFromData('${item.name}')" onerror="this.src='https://via.placeholder.com/150?text=No+Image'">
