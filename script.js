@@ -46,7 +46,11 @@ function displayItems(items) {
         // Find real index in currentLiveItems for editing/deleting
         const realIndex = currentLiveItems.findIndex(p => p.name === item.name);
         const statusClass = item.status === "In Stock" ? "in-stock" : "out-stock";
-        return `
+        // Hanapin ang part na nag-ge-generate ng card at dagdagan nito:
+        const statusClass = item.status === 'In Stock' ? 'status-ok' : 'status-low';
+// ... sa loob ng template literal:
+`<span class="stock-badge ${statusClass}">${item.status}</span>`
+        return `                     
             <div class="product-card">
                 <img src="${item.image}" onclick="openProductViewFromData('${item.name}')" onerror="this.src='https://via.placeholder.com/150?text=No+Image'">
                 <div onclick="openProductViewFromData('${item.name}')" style="cursor:pointer; flex-grow:1;">
