@@ -85,8 +85,13 @@
             <input type="text" id="itemImageLink" placeholder="Image Direct Link">
             <button id="addBtn" onclick="saveProduct()" style="background:#28a745; color:white; width:100%; padding:12px; border:none; border-radius:8px; font-weight:bold; cursor:pointer;">Save & Copy JSON</button>
         </div>
+        
     </div>
-
+    <div class="hot-deals no-print">
+    <h3>🔥 HOT DEALS TODAY</h3>
+    <div id="hotDealsContainer" class="product-grid"></div>
+    </div>
+    
     <div class="category-nav no-print">
         <button class="cat-btn active" onclick="filterCategory('All', this)">All</button>
         <button class="cat-btn" onclick="filterCategory('Cheese', this)">🧀 Cheese</button>
