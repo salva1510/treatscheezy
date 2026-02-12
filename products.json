@@ -734,15 +734,4 @@
       "boxThreshold": 0,
       "boxDiscountPrice": 0
     }
-  },
-  {
-    "name": "INSTANT CHEESE POWDER MIX",
-    "qty": "Min 20tubs up : discounted",
-    "weight": "450grams",
-    "pricePiece": 100,
-    "pricePack": 0,
-    "priceSet": 0,
-    "priceBox": 0,
-    "status": "In Stock",
-    "expiry": "2026-09-09",
-    "descr
+    ]
