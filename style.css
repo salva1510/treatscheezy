@@ -308,4 +308,15 @@ body::before {
     right: 20px;
     z-index: 1000;
 }
+#productViewModal .modal-content {
+    max-height: 90vh;
+    overflow-y: auto;
+}
+
+#productViewModal img {
+    width: 100%;
+    max-height: 300px;   /* limits height */
+    object-fit: contain; /* keeps full image visible */
+    border-radius: 15px;
+}
 
