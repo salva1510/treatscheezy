@@ -76,6 +76,28 @@ function displayItems(items) {
         `;
     }).join('');
 }
+function displayHotDeals() {
+    const container = document.getElementById('hotDealsContainer');
+    if (!container) return;
+
+    const hotItems = currentLiveItems.filter(item => {
+        if (!item.discounts) return false;
+        return (
+            item.discounts.pieceThreshold > 0 ||
+            item.discounts.packThreshold > 0 ||
+            item.discounts.setThreshold > 0 ||
+            item.discounts.boxThreshold > 0
+        );
+    });
+
+    container.innerHTML = hotItems.slice(0, 6).map(item => `
+        <div class="product-card" style="border:2px solid #ff4d4d;">
+            <img src="${item.image}" onclick="openProductViewFromData('${item.name}')">
+            <span style="background:red; color:white; padding:3px 8px; font-size:11px; border-radius:20px; position:absolute;">🔥 SALE</span>
+            <h4>${item.name}</h4>
+        </div>
+    `).join('');
+}
 
 // Reusable View Modal
 function openProductViewFromData(name) {
