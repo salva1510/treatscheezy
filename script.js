@@ -63,9 +63,9 @@ if (item.expiry) {
                 <div onclick="openProductViewFromData('${item.name}')" style="cursor:pointer; flex-grow:1;">
                     <span class="status-badge ${statusClass}">${item.status}</span>
                     <h4>${item.name}</h4>
+                        ${expiryWarning}
                     <div class="item-details-text">${item.qty || ''} ${item.weight ? ' • ' + item.weight : ''}</div>
                     <div style="margin-bottom: 8px; text-align:left; padding:0 5px;">
-                        ${expiryWarning}
                         ${item.pricePiece ? `<div class="price-tag" style="font-size:11px; color:#1a73e8;">₱${item.pricePiece.toLocaleString()} /pc</div>` : ''}
                         ${item.pricePack ? `<div class="price-tag" style="font-size:11px; color:#e67e22;">₱${item.pricePack.toLocaleString()} /pack</div>` : ''}
                         ${item.priceSet ? `<div class="price-tag" style="font-size:11px; color:#6f42c1;">₱${item.priceSet.toLocaleString()} /set</div>` : ''}
