@@ -24,6 +24,7 @@ async function loadData() {
         currentLiveItems = await res.json();
         displayItems(currentLiveItems);
         setupSlider(currentLiveItems);
+        displayHotDeals(); // ADD THIS
     } catch (e) { console.error("Error loading JSON:", e); }
 }
 
