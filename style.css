@@ -205,8 +205,21 @@ body::before {
   100% { transform: scale(1); }
 }
 
-#basketFloat.bounce {
-  animation: cartBounce 0.4s ease;
+#basketFloat {
+    position: fixed;
+    bottom: 160px;
+    right: 20px;
+    background: #ff9800;
+    color: white;
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    display: none;
+    justify-content: center;
+    align-items: center;
+    font-size: 22px;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+    z-index: 1000;
 }
 .opt-btn {
   position: relative;
