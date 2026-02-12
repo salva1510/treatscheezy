@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#ff9800">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Treats Cheezy</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div class="container">
+    <h2>Treats Cheesy Pricelist</h2>
+
+    <div class="slider-container no-print">
+        <div id="imageSlider" class="slider-track"></div>
+        <button class="slider-btn prev" onclick="moveSlider(-1)">&#10094;</button>
+        <button class="slider-btn next" onclick="moveSlider(1)">&#10095;</button>
+        <div id="sliderDots" class="slider-dots"></div>
+    </div>
+
+    <div class="admin-header no-print">
+        <span id="adminStatus">Customer Mode</span>
+        <button id="loginBtn" onclick="toggleAdmin()">Admin Login</button>
+    </div>
+
+    <div id="adminSection" style="display:none;">
+        <!-- KEEP YOUR ORIGINAL ADMIN SECTION HERE EXACTLY AS BEFORE -->
+    </div>
+
+    <div id="productGrid" class="product-grid"></div>
+</div>
+
+<!-- FLOATING BASKET -->
+<div id="basketFloat" onclick="toggleBasketModal()">
+    <div id="basketCount">0</div>
+    🛒
+</div>
+
+<!-- PRODUCT VIEW MODAL -->
+<div id="productViewModal" class="modal" onclick="closeProductView()">
+    <div class="modal-content" onclick="event.stopPropagation()">
+        <img id="viewImage" src="">
+        <h3 id="viewName"></h3>
+        <p id="viewDesc"></p>
+        <div>
+            <div id="viewQty"></div>
+            <div id="viewWeight"></div>
+            <div id="viewExpiry"></div>
+            <div id="viewStatus"></div>
+        </div>
+        <div id="viewPriceContainer"></div>
+        <button onclick="closeProductView()">Close</button>
+    </div>
+</div>
+
+<!-- BASKET MODAL (ORIGINAL COMPLETE VERSION RESTORED) -->
+<div id="basketModal" class="modal" onclick="toggleBasketModal()">
+    <div class="modal-content" onclick="event.stopPropagation()">
+        <h3>🛒 Checkout Details</h3>
+
+        <div class="delivery-info">
+            🚚 Deliveries via Lalamove. SF paid by customer.
+        </div>
+
+        <div class="input-group">
+            <input type="text" id="customerName" placeholder="Full Name">
+            <input type="number" id="customerContact" placeholder="Contact Number">
+            <textarea id="customerAddress" placeholder="Complete Address" rows="2"></textarea>
+
+            <select id="paymentMethod">
+                <option value="GCash upon Pick up">GCash upon Pick up</option>
+            </select>
+        </div>
+
+        <div id="basketList"></div>
+
+        <div class="total-section" style="display:flex; justify-content:space-between; font-weight:bold; padding:15px 0;">
+            <span>TOTAL:</span>
+            <span id="basketTotal">₱0</span>
+        </div>
+
+        <div class="checkout-footer" style="display:flex; gap:10px;">
+            <button onclick="sendOrder('whatsapp')" class="btn-wa">WhatsApp</button>
+            <button onclick="sendOrder('messenger')" class="btn-msgr">Messenger</button>
+        </div>
+    </div>
+</div>
+
+<!-- FIXED FOOTER (PROPERLY OUTSIDE MODALS) -->
+<div class="footer-nav no-print">
+
+    <div class="search-box">
+        <input type="text" id="searchInput" placeholder="Search products..." onkeyup="searchFunction()">
+    </div>
+
+    <div class="category-nav">
+        <button class="cat-btn active" onclick="filterCategory('All', this)">All</button>
+        <button class="cat-btn" onclick="filterCategory('Cheese', this)">🧀 Cheese</button>
+        <button class="cat-btn" onclick="filterCategory('Foods', this)">🍲 Foods</button>
+        <button class="cat-btn" onclick="filterCategory('Drink', this)">🥤 Drink</button>
+        <button class="cat-btn" onclick="filterCategory('Frozen', this)">❄️ Frozen</button>
+        <button class="cat-btn" onclick="filterCategory('Household', this)">🏠 Household</button>
+        <button class="cat-btn" onclick="filterCategory('Goods', this)">📦 Goods</button>
+    </div>
+
+</div>
+
+<a href="https://m.me/chee.zeeyy.2025" target="_blank" class="floating-chat">
+    <img src="https://upload.wikimedia.org/wikipedia/commons/b/be/Facebook_Messenger_logo_2020.svg" width="35" height="35">
+</a>
+
+<script src="script.js"></script>
+</body>
+</html>
