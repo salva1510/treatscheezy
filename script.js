@@ -386,4 +386,9 @@ function searchFunction() {
     let cards = document.getElementsByClassName('product-card');
     for (let card of cards) card.style.display = card.innerText.toUpperCase().includes(val) ? "flex" : "none";
       }
+setInterval(() => {
+    if (currentLiveItems.length > 1) {
+        moveSlider(1);
+    }
+}, 4000);
                                                                                                                                                                                                                   
