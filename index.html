@@ -34,69 +34,94 @@
                 <option value="Cheese">Cheese</option>
                 <option value="Foods">Foods</option>
                 <option value="Drink">Drink</option>
+                <option value="Frozen">Frozen</option>
+                <option value="Household">Household</option>
+                <option value="Goods">Goods</option>
             </select>
 
-            <input type="text" id="itemQty" placeholder="Qty (e.g. 1 Box)">
-            <input type="text" id="itemWeight" placeholder="Weight (e.g. 900g)">
-            <input type="number" id="itemPricePiece" placeholder="Price per Piece">
-            <input type="number" id="itemPricePack" placeholder="Price per Pack">
-            <input type="number" id="itemPriceSet" placeholder="Price per Set">
-            <input type="number" id="itemPriceBox" placeholder="Price per Box">
+            <div class="row">
+                <input type="text" id="itemQty" placeholder="Unit (e.g. 1 Box (36pcs))">
+                <input type="text" id="itemWeight" placeholder="Weight (e.g. 250ml)">
+            </div>
             
-            <select id="itemStatus">
-                <option value="In Stock">In Stock</option>
-                <option value="Low Stock">Low Stock</option>
-                <option value="Out of Stock">Out of Stock</option>
-            </select>
-            
-            <input type="text" id="itemExpiry" placeholder="Expiry Date">
-            <textarea id="itemDesc" placeholder="Description" rows="2"></textarea>
-            <input type="text" id="itemImage" placeholder="Image URL (Postimg link)">
-
-            <h4 style="margin:10px 0 5px; color:#5a3e00;">Bulk Discounts</h4>
-            <div style="display:grid; grid-template-columns: 1fr 1fr; gap:5px;">
-                <input type="number" id="pieceThreshold" placeholder="Min Pcs">
-                <input type="number" id="pieceDiscountPrice" placeholder="Disc Price/Pc">
-                <input type="number" id="packThreshold" placeholder="Min Packs">
-                <input type="number" id="packDiscountPrice" placeholder="Disc Price/Pack">
-                <input type="number" id="setThreshold" placeholder="Min Sets">
-                <input type="number" id="setDiscountPrice" placeholder="Disc Price/Set">
-                <input type="number" id="boxThreshold" placeholder="Min Boxes">
-                <input type="number" id="boxDiscountPrice" placeholder="Disc Price/Box">
+            <p style="font-size: 12px; font-weight: bold; margin-bottom: 5px;">Prices:</p>
+            <div class="row">
+                <input type="number" id="itemPricePiece" placeholder="Price/Piece">
+                <input type="number" id="itemPricePack" placeholder="Price/Pack">
+            </div>
+            <div class="row">
+                <input type="number" id="itemPriceSet" placeholder="Price/Set">
+                <input type="number" id="itemPriceBox" placeholder="Price/Box">
             </div>
 
-            <button id="addBtn" onclick="saveItem()">Add Item & Copy JSON</button>
+            <div style="background:#e3f2fd; padding:10px; border-radius:10px; margin:10px 0;">
+                <p style="font-size:12px; font-weight:bold; margin-bottom:5px;">Bulk Discounts (Pakyawan Settings):</p>
+                <div class="row">
+                    <input type="number" id="pieceThreshold" placeholder="Min Piece Qty">
+                    <input type="number" id="pieceDiscountPrice" placeholder="Disc. Price/Pc">
+                </div>
+                <div class="row">
+                    <input type="number" id="packThreshold" placeholder="Min Pack Qty">
+                    <input type="number" id="packDiscountPrice" placeholder="Disc. Price/Pack">
+                </div>
+                <div class="row">
+                    <input type="number" id="setThreshold" placeholder="Min Set Qty">
+                    <input type="number" id="setDiscountPrice" placeholder="Disc. Price/Set">
+                </div>
+                <div class="row">
+                    <input type="number" id="boxThreshold" placeholder="Min Box Qty">
+                    <input type="number" id="boxDiscountPrice" placeholder="Disc. Price/Box">
+                </div>
+            </div>
+
+            <div class="row">
+                <select id="itemStatus">
+                    <option>In Stock</option>
+                    <option>Out of Stock</option>
+                </select>
+                <input type="date" id="itemExpiry">
+            </div>
+            <textarea id="itemDesc" placeholder="Product Description..." rows="2"></textarea>
+            <input type="text" id="itemImageLink" placeholder="Image Direct Link">
+            <button id="addBtn" onclick="saveProduct()" style="background:#28a745; color:white; width:100%; padding:12px; border:none; border-radius:8px; font-weight:bold; cursor:pointer;">Save & Copy JSON</button>
         </div>
     </div>
 
-    <div class="search-box no-print">
-        <input type="text" id="searchInput" onkeyup="searchFunction()" placeholder="Maghanap ng produkto...">
+    <div class="category-nav no-print">
+        <button class="cat-btn active" onclick="filterCategory('All', this)">All</button>
+        <button class="cat-btn" onclick="filterCategory('Cheese', this)">🧀 Cheese</button>
+        <button class="cat-btn" onclick="filterCategory('Foods', this)">🍲 Foods</button>
+        <button class="cat-btn" onclick="filterCategory('Drink', this)">🥤 Drink</button>
+        <button class="cat-btn" onclick="filterCategory('Frozen', this)">❄️ Frozen</button>
+        <button class="cat-btn" onclick="filterCategory('Household', this)">🏠 Household</button>
+        <button class="cat-btn" onclick="filterCategory('Goods', this)">📦 Goods</button>
     </div>
 
-    <div class="category-filter no-print">
-        <button class="cat-btn active" onclick="filterCategory('All', this)">All</button>
-        <button class="cat-btn" onclick="filterCategory('Cheese', this)">Cheese</button>
-        <button class="cat-btn" onclick="filterCategory('Foods', this)">Foods</button>
-        <button class="cat-btn" onclick="filterCategory('Drink', this)">Drink</button>
+    <div class="search-box no-print">
+        <input type="text" id="searchInput" placeholder="Search products..." onkeyup="searchFunction()">
     </div>
 
     <div id="productGrid" class="product-grid"></div>
 </div>
 
-<button class="basket-btn no-print" onclick="toggleBasketModal()">
-    🛒 <span id="basketCount">0</span>
-</button>
-
-<a href="https://m.me/chee.zeeyy.2025" target="_blank" class="floating-chat no-print">
-    <img src="https://upload.wikimedia.org/wikipedia/commons/b/be/Facebook_Messenger_logo_2020.svg" width="35" height="35">
-</a>
+<div id="basketFloat" onclick="toggleBasketModal()">
+    <div id="basketCount">0</div>
+    🛒
+</div>
 
 <div id="productViewModal" class="modal" onclick="closeProductView()">
     <div class="modal-content" onclick="event.stopPropagation()">
-        <img id="viewImg" style="width:100%; border-radius:10px; margin-bottom:15px;">
-        <h3 id="viewTitle" style="margin:0;"></h3>
-        <p id="viewDesc" style="color:#666; font-size:14px; margin:10px 0;"></p>
-        <button onclick="closeProductView()" style="width:100%; padding:10px; border:none; background:none; cursor:pointer;">Isara</button>
+        <img id="viewImage" src="" style="width:100%; border-radius:15px; margin-bottom:15px;">
+        <h3 id="viewName"></h3>
+        <p id="viewDesc" style="font-size:14px; color:#555; margin-bottom:15px;"></p>
+        <div style="background:#f9f9f9; padding:10px; border-radius:10px; font-size:13px; margin-bottom:15px;">
+            <div id="viewQty"></div>
+            <div id="viewWeight"></div>
+            <div id="viewExpiry"></div>
+            <div id="viewStatus" style="margin-top:5px;"></div>
+        </div>
+        <div id="viewPriceContainer" style="display:flex; flex-wrap:wrap; gap:10px; justify-content:center;"></div>
+        <button onclick="closeProductView()" style="width:100%; margin-top:15px; padding:10px; border-radius:10px; border:1px solid #ddd; background:none; cursor:pointer;">Isara</button>
     </div>
 </div>
 
@@ -125,8 +150,12 @@
         </div>
     </div>
 </div>
-
+    
+<a href="https://m.me/chee.zeeyy.2025" target="_blank" class="floating-chat">
+    <img src="https://upload.wikimedia.org/wikipedia/commons/b/be/Facebook_Messenger_logo_2020.svg" width="35" height="35">
+</a>
+    
 <script src="script.js"></script>
 </body>
-          </html>
-              
+  </html>
+  
