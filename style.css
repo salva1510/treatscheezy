@@ -288,4 +288,24 @@ body::before {
 .container {
     padding-bottom: 130px;
 }
+.footer-nav {
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    background: white;
+    padding: 10px;
+    box-shadow: 0 -4px 15px rgba(0,0,0,0.08);
+    z-index: 999;
+}
+
+.container {
+    padding-bottom: 160px;
+}
+
+#basketFloat {
+    position: fixed;
+    bottom: 180px;
+    right: 20px;
+    z-index: 1000;
+}
 
