@@ -11,8 +11,34 @@
 <body>
 
 <div class="container">
-    <h2>Treats Cheesy Pricelist</h2>
+    <!-- ===== NEW PREMIUM HEADER ===== -->
+<div class="main-header no-print">
 
+    <div class="header-top">
+        <div class="logo-area">
+            <h1>🧀 Treats Cheezy</h1>
+            <span class="tagline">Your Trusted Cheese & Grocery Supplier</span>
+        </div>
+
+        <div class="header-search">
+            <input type="text" 
+                   id="searchInput" 
+                   placeholder="🔍 Search products..." 
+                   onkeyup="searchFunction()">
+        </div>
+    </div>
+
+    <div class="header-categories">
+        <button class="cat-btn active" onclick="filterCategory('All', this)">All</button>
+        <button class="cat-btn" onclick="filterCategory('Cheese', this)">🧀 Cheese</button>
+        <button class="cat-btn" onclick="filterCategory('Foods', this)">🍲 Foods</button>
+        <button class="cat-btn" onclick="filterCategory('Drink', this)">🥤 Drink</button>
+        <button class="cat-btn" onclick="filterCategory('Frozen', this)">❄️ Frozen</button>
+        <button class="cat-btn" onclick="filterCategory('Household', this)">🏠 Household</button>
+        <button class="cat-btn" onclick="filterCategory('Goods', this)">📦 Goods</button>
+    </div>
+
+</div>
     <div class="slider-container no-print">
         <div id="imageSlider" class="slider-track"></div>
         <button class="slider-btn prev" onclick="moveSlider(-1)">&#10094;</button>
