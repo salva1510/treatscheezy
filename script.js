@@ -35,10 +35,26 @@ function filterCategory(category, btn) {
 
     if (category === 'All') {
         displayItems(currentLiveItems);
-    } else {
-        const filtered = currentLiveItems.filter(item => item.category === category);
-        displayItems(filtered);
+        return;
     }
+
+    if (category === 'Hot') {
+        const hotItems = currentLiveItems.filter(item => {
+            if (!item.discounts) return false;
+            return (
+                item.discounts.pieceThreshold > 0 ||
+                item.discounts.packThreshold > 0 ||
+                item.discounts.setThreshold > 0 ||
+                item.discounts.boxThreshold > 0
+            );
+        });
+
+        displayItems(hotItems);
+        return;
+    }
+
+    const filtered = currentLiveItems.filter(item => item.category === category);
+    displayItems(filtered);
 }
 
 function displayItems(items) {
