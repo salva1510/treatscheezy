@@ -75,6 +75,12 @@ if (item.expiry) {
 }
         return `
             <div class="product-card">
+            ${item.discounts && (
+    item.discounts.pieceThreshold > 0 ||
+    item.discounts.packThreshold > 0 ||
+    item.discounts.setThreshold > 0 ||
+    item.discounts.boxThreshold > 0
+) ? '<div class="sale-badge">SALE</div>' : ''}
                 <img src="${item.image}" onclick="openProductViewFromData('${item.name}')" onerror="this.src='https://via.placeholder.com/150?text=No+Image'">
                 <div onclick="openProductViewFromData('${item.name}')" style="cursor:pointer; flex-grow:1;">
                     <span class="status-badge ${statusClass}">${item.status}</span>
