@@ -1,4 +1,4 @@
-const CACHE_NAME = 'treats-cheezy-v7';
+const CACHE_NAME = 'treats-cheezy-v6';
 
 self.addEventListener('install', event => {
   self.skipWaiting();

@@ -198,46 +198,22 @@ function renderBasket() {
     const list = document.getElementById('basketList');
     let total = 0;
     let html = "";
-
+    
     for (let key in basket) {
         let item = basket[key];
         let productData = currentLiveItems.find(p => p.name === item.originalName);
         let finalPrice = item.price;
         let discountApplied = false;
 
-        // Check discount per type
         if (productData && productData.discounts) {
             const d = productData.discounts;
-            switch (item.type) {
-                case 'Piece':
-                    if (d.pieceThreshold > 0 && item.count >= d.pieceThreshold) {
-                        finalPrice = d.pieceDiscountPrice;
-                        discountApplied = true;
-                    }
-                    break;
-                case 'Pack':
-                    if (d.packThreshold > 0 && item.count >= d.packThreshold) {
-                        finalPrice = d.packDiscountPrice;
-                        discountApplied = true;
-                    }
-                    break;
-                case 'Set':
-                    if (d.setThreshold > 0 && item.count >= d.setThreshold) {
-                        finalPrice = d.setDiscountPrice;
-                        discountApplied = true;
-                    }
-                    break;
-                case 'Box':
-                    if (d.boxThreshold > 0 && item.count >= d.boxThreshold) {
-                        finalPrice = d.boxDiscountPrice;
-                        discountApplied = true;
-                    }
-                    break;
-            }
+            if (item.type === 'Piece' && d.pieceThreshold > 0 && item.count >= d.pieceThreshold) { finalPrice = d.pieceDiscountPrice; discountApplied = true; }
+            else if (item.type === 'Pack' && d.packThreshold > 0 && item.count >= d.packThreshold) { finalPrice = d.packDiscountPrice; discountApplied = true; }
+            else if (item.type === 'Set' && d.setThreshold > 0 && item.count >= d.setThreshold) { finalPrice = d.setDiscountPrice; discountApplied = true; }
+            else if (item.type === 'Box' && d.boxThreshold > 0 && item.count >= d.boxThreshold) { finalPrice = d.boxDiscountPrice; discountApplied = true; }
         }
 
         total += finalPrice * item.count;
-
         html += `
         <div style="display:flex; justify-content:space-between; align-items:center; padding:10px 0; border-bottom:1px solid #eee;">
             <div style="flex: 1;">
@@ -257,7 +233,6 @@ function renderBasket() {
             </div>
         </div>`;
     }
-
     list.innerHTML = html || "<p style='text-align:center; padding:20px; color:#888;'>Walang laman ang basket.</p>";
     document.getElementById('basketTotal').innerText = "₱" + total.toLocaleString();
 }
@@ -285,23 +260,35 @@ function updateBasketCount() {
     document.getElementById('basketFloat').style.display = total > 0 ? 'flex' : 'none';
 }
 
-for (let k in basket) {
-    let item = basket[k];
-    let productData = currentLiveItems.find(p => p.name === item.originalName);
-    let finalPrice = item.price;
+function sendOrder(platform) {
+    const name = document.getElementById('customerName').value;
+    const contact = document.getElementById('customerContact').value;
+    const address = document.getElementById('customerAddress').value;
+    const payment = document.getElementById('paymentMethod').value;
 
-    if(productData && productData.discounts) {
-        const d = productData.discounts;
-        switch(item.type) {
-            case 'Piece': if(item.count >= d.pieceThreshold) finalPrice = d.pieceDiscountPrice; break;
-            case 'Pack': if(item.count >= d.packThreshold) finalPrice = d.packDiscountPrice; break;
-            case 'Set': if(item.count >= d.setThreshold) finalPrice = d.setDiscountPrice; break;
-            case 'Box': if(item.count >= d.boxThreshold) finalPrice = d.boxDiscountPrice; break;
+    if(!name || !contact || !address || Object.keys(basket).length === 0) return alert("Paki-puno ang lahat ng detalye!");
+    
+    let msg = `*BAGONG ORDER*\n👤 Name: ${name}\n📞 Contact: ${contact}\n📍 Addr: ${address}\n💰 Payment: ${payment}\n----------\n`;
+    let total = 0;
+    
+    for (let k in basket) {
+        let item = basket[k];
+        let productData = currentLiveItems.find(p => p.name === item.originalName);
+        let finalPrice = item.price;
+        if (productData && productData.discounts) {
+            const d = productData.discounts;
+            if (item.type === 'Piece' && item.count >= d.pieceThreshold) finalPrice = d.pieceDiscountPrice;
+            if (item.type === 'Pack' && item.count >= d.packThreshold) finalPrice = d.packDiscountPrice;
+            if (item.type === 'Set' && item.count >= d.setThreshold) finalPrice = d.setDiscountPrice;
+            if (item.type === 'Box' && item.count >= d.boxThreshold) finalPrice = d.boxDiscountPrice;
         }
+        msg += `- ${k} x ${item.count} (@₱${finalPrice.toLocaleString()})\n`;
+        total += (finalPrice * item.count);
     }
+    msg += `----------\n💰 *TOTAL: ₱${total.toLocaleString()}*`;
 
-    msg += `- ${k} x ${item.count} (@₱${finalPrice.toLocaleString()})\n`;
-    total += finalPrice * item.count;
+    if(platform === 'whatsapp') window.open(`https://wa.me/${ADMIN_PHONE}?text=${encodeURIComponent(msg)}`);
+    else { navigator.clipboard.writeText(msg); alert("Order details copied!"); window.open(`https://m.me/${FB_USERNAME}`); }
 }
 
 function toggleAdmin() {
@@ -404,41 +391,4 @@ setInterval(() => {
         moveSlider(1);
     }
 }, 4000);
-/* ============================= */
-/* FIX EDIT BUTTON (SAFE ADDON)  */
-/* ============================= */
-
-document.addEventListener("click", function (e) {
-  if (e.target && e.target.classList.contains("edit-btn")) {
-
-    const index = e.target.getAttribute("data-index");
-
-    if (typeof products !== "undefined" && products[index]) {
-
-      const product = products[index];
-
-      // Fill admin form
-      if (document.getElementById("productName"))
-        document.getElementById("productName").value = product.name || "";
-
-      if (document.getElementById("productPrice"))
-        document.getElementById("productPrice").value = product.price || "";
-
-      if (document.getElementById("productCategory"))
-        document.getElementById("productCategory").value = product.category || "";
-
-      // Set edit index if existing variable
-      if (typeof editIndex !== "undefined") {
-        editIndex = index;
-      } else {
-        window.editIndex = index;
-      }
-
-      // Scroll to top smoothly
-      window.scrollTo({ top: 0, behavior: "smooth" });
-
-      console.log("Edit button working ✅ Index:", index);
-    }
-  }
-});
                                                                                                                                                                                                                   
