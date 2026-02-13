@@ -179,8 +179,8 @@ body {
 }
 
 .product-card:hover {
-  transform: translateY(-8px);
-  box-shadow: 0 20px 40px rgba(0,0,0,0.15);
+    transform: translateY(-8px);
+    box-shadow: 0 20px 40px rgba(255,183,3,0.4);
 }
 
 .product-card img {
@@ -210,15 +210,13 @@ body {
   to { opacity: 1; }
 }
 body::before {
-  content: "";
-  position: fixed;
-  width: 400px;
-  height: 400px;
-  background: radial-gradient(circle, rgba(255,152,0,0.25) 0%, transparent 70%);
-  top: -100px;
-  right: -100px;
-  z-index: -1;
-  animation: floatGlow 8s infinite alternate ease-in-out;
+    content: "";
+    position: fixed;
+    inset: 0;
+    background-image: url("https://www.transparenttextures.com/patterns/cheese.png");
+    opacity: 0.08;
+    pointer-events: none;
+    z-index: 0;
 }
 
 @keyframes floatGlow {
@@ -262,10 +260,27 @@ body::before {
     position: sticky;
     top: 0;
     z-index: 1500;
-    background: white;
-    padding: 15px 20px;
-    box-shadow: 0 4px 15px rgba(0,0,0,0.08);
-    border-radius: 0 0 20px 20px;
+    background: linear-gradient(180deg, #ffcc33, #ff9900);
+    padding: 20px;
+    box-shadow: 0 6px 20px rgba(0,0,0,0.1);
+    border-radius: 0 0 40px 40px;
+    position: relative;
+    overflow: hidden;
+}
+
+/* Cheese drip effect */
+.main-header::after {
+    content: "";
+    position: absolute;
+    bottom: -20px;
+    left: 0;
+    width: 100%;
+    height: 40px;
+    background: radial-gradient(circle at 10% 0%, #ffcc33 25px, transparent 26px),
+                radial-gradient(circle at 30% 0%, #ffb703 35px, transparent 36px),
+                radial-gradient(circle at 60% 0%, #ffcc33 30px, transparent 31px),
+                radial-gradient(circle at 85% 0%, #ffb703 40px, transparent 41px);
+    background-repeat: no-repeat;
 }
 
 .header-top {
@@ -278,6 +293,16 @@ body::before {
 .logo-area h1 {
     margin: 0;
     font-size: 22px;
+}
+.logo-area h1::before {
+    content: "";
+    position: absolute;
+    width: 12px;
+    height: 12px;
+    background: #f4a261;
+    border-radius: 50%;
+    top: 10px;
+    left: 20px;
 }
 
 .tagline {
@@ -313,21 +338,16 @@ body::before {
 }
 
 .header-categories .cat-btn {
-    border: none;
-    padding: 8px 15px;
-    border-radius: 20px;
-    background: white;
-    color: #fb8500;
+    background: #fff3cd;
+    border: 2px solid #ffb703;
+    color: #d97706;
     font-weight: bold;
-    cursor: pointer;
-    transition: 0.3s;
 }
 
 .header-categories .cat-btn.active {
-    background: #5a3e00;
+    background: #ffb703;
     color: white;
 }
-
 .header-categories .cat-btn:hover {
     transform: scale(1.05);
 }
