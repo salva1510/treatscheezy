@@ -477,4 +477,7 @@ body::before {
 .nav-item:hover {
     color: #ff9800;
 }
+body {
+    padding-bottom: 70px;
+}
 
