@@ -11,34 +11,8 @@
 <body>
 
 <div class="container">
-    <!-- ===== NEW PREMIUM HEADER ===== -->
-<div class="main-header no-print">
+    <h2>Treats Cheesy Pricelist</h2>
 
-    <div class="header-top">
-        <div class="logo-area">
-            <h1>🧀 Treats Cheezy</h1>
-            <span class="tagline">Your Trusted Cheese & Grocery Supplier</span>
-        </div>
-
-        <div class="header-search">
-            <input type="text" 
-                   id="searchInput" 
-                   placeholder="🔍 Search products..." 
-                   onkeyup="searchFunction()">
-        </div>
-    </div>
-
-    <div class="header-categories">
-        <button class="cat-btn active" onclick="filterCategory('All', this)">All</button>
-        <button class="cat-btn" onclick="filterCategory('Cheese', this)">🧀 Cheese</button>
-        <button class="cat-btn" onclick="filterCategory('Foods', this)">🍲 Foods</button>
-        <button class="cat-btn" onclick="filterCategory('Drink', this)">🥤 Drink</button>
-        <button class="cat-btn" onclick="filterCategory('Frozen', this)">❄️ Frozen</button>
-        <button class="cat-btn" onclick="filterCategory('Household', this)">🏠 Household</button>
-        <button class="cat-btn" onclick="filterCategory('Goods', this)">📦 Goods</button>
-    </div>
-
-</div>
     <div class="slider-container no-print">
         <div id="imageSlider" class="slider-track"></div>
         <button class="slider-btn prev" onclick="moveSlider(-1)">&#10094;</button>
@@ -113,9 +87,27 @@
         </div>
         
     </div>
+    <div class="hot-deals no-print">
     <h3>🔥 HOT DEALS TODAY</h3>
     <div id="hotDealsContainer" class="product-grid"></div>
     </div>
+    
+    <div class="category-nav no-print">
+        <button class="cat-btn active" onclick="filterCategory('All', this)">All</button>
+        <button class="cat-btn" onclick="filterCategory('Cheese', this)">🧀 Cheese</button>
+        <button class="cat-btn" onclick="filterCategory('Foods', this)">🍲 Foods</button>
+        <button class="cat-btn" onclick="filterCategory('Drink', this)">🥤 Drink</button>
+        <button class="cat-btn" onclick="filterCategory('Frozen', this)">❄️ Frozen</button>
+        <button class="cat-btn" onclick="filterCategory('Household', this)">🏠 Household</button>
+        <button class="cat-btn" onclick="filterCategory('Goods', this)">📦 Goods</button>
+    </div>
+
+    <div class="search-box no-print">
+        <input type="text" id="searchInput" placeholder="Search products..." onkeyup="searchFunction()">
+    </div>
+
+    <div id="productGrid" class="product-grid"></div>
+</div>
 
 <div id="basketFloat" onclick="toggleBasketModal()">
     <div id="basketCount">0</div>
