@@ -404,4 +404,41 @@ setInterval(() => {
         moveSlider(1);
     }
 }, 4000);
+/* ============================= */
+/* FIX EDIT BUTTON (SAFE ADDON)  */
+/* ============================= */
+
+document.addEventListener("click", function (e) {
+  if (e.target && e.target.classList.contains("edit-btn")) {
+
+    const index = e.target.getAttribute("data-index");
+
+    if (typeof products !== "undefined" && products[index]) {
+
+      const product = products[index];
+
+      // Fill admin form
+      if (document.getElementById("productName"))
+        document.getElementById("productName").value = product.name || "";
+
+      if (document.getElementById("productPrice"))
+        document.getElementById("productPrice").value = product.price || "";
+
+      if (document.getElementById("productCategory"))
+        document.getElementById("productCategory").value = product.category || "";
+
+      // Set edit index if existing variable
+      if (typeof editIndex !== "undefined") {
+        editIndex = index;
+      } else {
+        window.editIndex = index;
+      }
+
+      // Scroll to top smoothly
+      window.scrollTo({ top: 0, behavior: "smooth" });
+
+      console.log("Edit button working ✅ Index:", index);
+    }
+  }
+});
                                                                                                                                                                                                                   
