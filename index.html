@@ -197,4 +197,47 @@
 <script src="script.js"></script>
 </body>
   </html>
+<!-- ================= FOOTER ================= -->
+<footer class="main-footer">
+
+    <div class="footer-grid">
+
+        <!-- CATEGORIES -->
+        <div class="footer-col">
+            <h4>Categories</h4>
+            <ul>
+                <li onclick="filterCategory('All', document.querySelector('.cat-btn'))">All Products</li>
+                <li onclick="filterCategory('Hot', document.querySelector('.cat-btn'))">🔥 Hot Deals</li>
+                <li onclick="filterCategory('Cheese', document.querySelector('.cat-btn'))">🧀 Cheese</li>
+                <li onclick="filterCategory('Foods', document.querySelector('.cat-btn'))">🍲 Foods</li>
+                <li onclick="filterCategory('Drink', document.querySelector('.cat-btn'))">🥤 Drinks</li>
+                <li onclick="filterCategory('Frozen', document.querySelector('.cat-btn'))">❄ Frozen</li>
+            </ul>
+        </div>
+
+        <!-- QUICK LINKS -->
+        <div class="footer-col">
+            <h4>Quick Links</h4>
+            <ul>
+                <li onclick="scrollToTop()">Home</li>
+                <li onclick="scrollToCategories()">Categories</li>
+                <li onclick="toggleBasket()">My Basket</li>
+            </ul>
+        </div>
+
+        <!-- CONTACT -->
+        <div class="footer-col">
+            <h4>Contact Us</h4>
+            <p>📍 Your Store Location</p>
+            <p>📞 09XXXXXXXXX</p>
+            <p>📩 yourstore@email.com</p>
+        </div>
+
+    </div>
+
+    <div class="footer-bottom">
+        © 2024 Treats Cheezy. All rights reserved.
+    </div>
+
+</footer>
   
