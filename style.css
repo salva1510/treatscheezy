@@ -297,4 +297,29 @@ body::before {
 .header-categories .cat-btn:hover {
     transform: scale(1.05);
 }
+/* ============================= */
+/* BACK TO TOP BUTTON */
+/* ============================= */
+
+#backToTopBtn {
+    position: fixed;
+    bottom: 150px; /* Nilayo sa basket at chat button */
+    right: 20px;
+    background: linear-gradient(45deg, #ff9800, #fb8500);
+    color: white;
+    border: none;
+    width: 55px;
+    height: 55px;
+    border-radius: 50%;
+    font-size: 22px;
+    cursor: pointer;
+    display: none;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.25);
+    z-index: 999;
+    transition: all 0.3s ease;
+}
+
+#backToTopBtn:hover {
+    transform: scale(1.1);
+}
 
