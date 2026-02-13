@@ -444,22 +444,4 @@ window.addEventListener("scroll", function () {
 
     document.getElementById("scrollProgress").style.width = scrollPercent + "%";
 });
-// =============================
-// BOTTOM NAV FUNCTIONS
-// =============================
-
-function scrollToCategories() {
-    const headerCategories = document.querySelector(".header-categories");
-    if (headerCategories) {
-        headerCategories.scrollIntoView({ behavior: "smooth" });
-    }
-}
-
-// Active state switching
-document.querySelectorAll(".nav-item").forEach(item => {
-    item.addEventListener("click", function () {
-        document.querySelectorAll(".nav-item").forEach(i => i.classList.remove("active"));
-        this.classList.add("active");
-    });
-});
                                                                                                                                                                                                                   
