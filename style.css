@@ -205,21 +205,8 @@ body::before {
   100% { transform: scale(1); }
 }
 
-#basketFloat {
-    position: fixed;
-    bottom: 160px;
-    right: 20px;
-    background: #ff9800;
-    color: white;
-    width: 60px;
-    height: 60px;
-    border-radius: 50%;
-    display: none;
-    justify-content: center;
-    align-items: center;
-    font-size: 22px;
-    box-shadow: 0 8px 20px rgba(0,0,0,0.2);
-    z-index: 1000;
+#basketFloat.bounce {
+  animation: cartBounce 0.4s ease;
 }
 .opt-btn {
   position: relative;
@@ -240,52 +227,5 @@ body::before {
 .opt-btn:active::after {
   width: 200px;
   height: 200px;
-}
-.footer-nav {
-    position: fixed;
-    bottom: 0;
-    left: 0;
-    width: 100%;
-    background: white;
-    box-shadow: 0 -5px 20px rgba(0,0,0,0.08);
-    padding: 10px;
-    z-index: 999;
-}
-
-.footer-search {
-    margin-bottom: 8px;
-}
-
-.footer-search input {
-    width: 100%;
-    padding: 10px;
-    border-radius: 25px;
-    border: 1px solid #ddd;
-    font-size: 14px;
-}
-
-.footer-categories {
-    display: flex;
-    justify-content: space-between;
-    gap: 5px;
-}
-
-.footer-categories button {
-    flex: 1;
-    border: none;
-    background: #f5f5f5;
-    padding: 8px;
-    border-radius: 15px;
-    font-size: 14px;
-    cursor: pointer;
-    transition: 0.3s;
-}
-
-.footer-categories button:hover {
-    background: #ff9800;
-    color: white;
-}
-.container {
-    padding-bottom: 130px;
 }
 
