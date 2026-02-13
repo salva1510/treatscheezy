@@ -407,4 +407,24 @@ setInterval(() => {
         moveSlider(1);
     }
 }, 4000);
+// =============================
+// BACK TO TOP FUNCTION
+// =============================
+
+const backToTopBtn = document.getElementById("backToTopBtn");
+
+window.addEventListener("scroll", function () {
+    if (window.scrollY > 300) {
+        backToTopBtn.style.display = "block";
+    } else {
+        backToTopBtn.style.display = "none";
+    }
+});
+
+function scrollToTop() {
+    window.scrollTo({
+        top: 0,
+        behavior: "smooth"
+    });
+}
                                                                                                                                                                                                                   
