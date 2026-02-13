@@ -391,4 +391,44 @@ setInterval(() => {
         moveSlider(1);
     }
 }, 4000);
+// ===== SEARCH FUNCTION =====
+const searchInput = document.getElementById("searchInput");
+
+if (searchInput) {
+  searchInput.addEventListener("keyup", function () {
+    let filter = searchInput.value.toLowerCase();
+    let products = document.querySelectorAll(".product");
+
+    products.forEach(product => {
+      let text = product.textContent.toLowerCase();
+      product.style.display = text.includes(filter) ? "block" : "none";
+    });
+  });
+}
+
+// ===== CATEGORY FILTER =====
+const categoryButtons = document.querySelectorAll(".category-btn");
+
+categoryButtons.forEach(btn => {
+  btn.addEventListener("click", function () {
+
+    document.querySelector(".category-btn.active")
+      ?.classList.remove("active");
+
+    this.classList.add("active");
+
+    let category = this.getAttribute("data-category");
+    let products = document.querySelectorAll(".product");
+
+    products.forEach(product => {
+      if (category === "all") {
+        product.style.display = "block";
+      } else {
+        product.style.display =
+          product.classList.contains(category) ? "block" : "none";
+      }
+    });
+
+  });
+});
                                                                                                                                                                                                                   
