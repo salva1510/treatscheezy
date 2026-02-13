@@ -480,4 +480,55 @@ body::before {
 body {
     padding-bottom: 70px;
 }
+/* ============================= */
+/* MODERN FOOTER */
+/* ============================= */
+
+.main-footer {
+    background: #1f2937;
+    color: #ddd;
+    padding: 40px 20px 20px;
+    margin-top: 40px;
+}
+
+.footer-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 30px;
+}
+
+.footer-col h4 {
+    margin-bottom: 15px;
+    color: #ff9800;
+}
+
+.footer-col ul {
+    list-style: none;
+    padding: 0;
+}
+
+.footer-col ul li {
+    margin-bottom: 10px;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.footer-col ul li:hover {
+    color: #ff9800;
+    transform: translateX(5px);
+}
+
+.footer-col p {
+    margin: 6px 0;
+    font-size: 14px;
+}
+
+.footer-bottom {
+    text-align: center;
+    margin-top: 30px;
+    padding-top: 15px;
+    border-top: 1px solid #333;
+    font-size: 13px;
+    color: #aaa;
+}
 
