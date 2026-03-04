@@ -152,9 +152,12 @@ body::before {
     transition: 0.3s;
 }
 
-.floating-chat:hover {
-    transform: scale(1.1);
-}
+.floating-chat {
+  position: fixed;
+  bottom: 20px;
+  left: 20px;   /* 👈 nilipat sa left */
+  z-index: 998; /* mas mababa kaysa CS chat */
+
 @keyframes pulseAnim {
   0% { transform: scale(1); }
   50% { transform: scale(1.2); }
