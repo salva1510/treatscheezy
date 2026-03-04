@@ -174,7 +174,20 @@
 <div id="backToTopBtn" onclick="scrollToTop()">⬆</div>
     <!-- SCROLL PROGRESS BAR -->
 <div id="scrollProgress"></div>
-    
+    <!-- Messenger Chat Plugin -->
+<div id="fb-root"></div>
+
+<div id="fb-customer-chat" class="fb-customerchat"></div>
+
+<script>
+  var chatbox = document.getElementById('fb-customer-chat');
+  chatbox.setAttribute("page_id", "chee.zeeyy.2025"); 
+  chatbox.setAttribute("attribution", "biz_inbox");
+</script>
+
+<script async defer crossorigin="anonymous"
+  src="https://connect.facebook.net/en_US/sdk/xfbml.customerchat.js">
+</script>
 <script src="script.js"></script>
 </body>
   </html>
