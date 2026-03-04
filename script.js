@@ -462,45 +462,35 @@ function sendMessage() {
 
   if (input.value.trim() === "") return;
 
-  const userText = input.value.toLowerCase();
+  const userTextRaw = input.value;
+  const userText = userTextRaw.toLowerCase();
 
   // USER MESSAGE
   const userMsg = document.createElement("div");
   userMsg.className = "user-message";
-  userMsg.textContent = input.value;
+  userMsg.textContent = userTextRaw;
   messages.appendChild(userMsg);
-
-  let botReply = "Thank you! Our team will reply shortly 😊";
-
-  // AUTO REPLIES
-  if (userText.includes("hello") || userText.includes("hi")) {
-    botReply = "Hi 👋 Welcome to Treats Cheezy! How can we help you today?";
-  }
-  else if (userText.includes("price")) {
-    botReply = "You can check all updated prices in our product list above 🧀";
-  }
-  else if (userText.includes("delivery")) {
-    botReply = "🚚 Delivery via Lalamove. Shipping fee is shouldered by customer.";
-  }
-  else if (userText.includes("location")) {
-    botReply = "📍 We are located in Quiapo, Manila.";
-  }
-  else if (userText.includes("payment")) {
-    botReply = "💳 We accept GCash, Maya, COD, and GCash upon pickup.";
-  }
-  else if (userText.includes("order")) {
-    botReply = "🛒 You can add items to basket and click checkout to send your order.";
-  }
-
-  // BOT MESSAGE (delay effect)
-  setTimeout(() => {
-    const reply = document.createElement("div");
-    reply.className = "bot-message";
-    reply.textContent = botReply;
-    messages.appendChild(reply);
-    messages.scrollTop = messages.scrollHeight;
-  }, 600);
 
   input.value = "";
   messages.scrollTop = messages.scrollHeight;
+
+  // AI THINKING EFFECT
+  const typing = document.createElement("div");
+  typing.className = "bot-message";
+  typing.textContent = "Typing...";
+  messages.appendChild(typing);
+  messages.scrollTop = messages.scrollHeight;
+
+  setTimeout(() => {
+
+    typing.remove();
+    let reply = generateAIReply(userText);
+
+    const botMsg = document.createElement("div");
+    botMsg.className = "bot-message";
+    botMsg.textContent = reply;
+    messages.appendChild(botMsg);
+    messages.scrollTop = messages.scrollHeight;
+
+  }, 800);
 }
