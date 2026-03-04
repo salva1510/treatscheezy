@@ -174,7 +174,23 @@
 <div id="backToTopBtn" onclick="scrollToTop()">⬆</div>
     <!-- SCROLL PROGRESS BAR -->
 <div id="scrollProgress"></div>
-    
+   <!-- Floating Chat Button -->
+<div id="chat-toggle">💬</div>
+
+<!-- Chat Box -->
+<div id="chat-box">
+  <div class="chat-header">
+    Customer Service
+    <span id="close-chat">✖</span>
+  </div>
+  <div class="chat-messages" id="chat-messages">
+    <div class="bot-message">Hi! 👋 How can we help you today?</div>
+  </div>
+  <div class="chat-input">
+    <input type="text" id="chat-input" placeholder="Type a message..." />
+    <button onclick="sendMessage()">Send</button>
+  </div>
+</div> 
 <script src="script.js"></script>
 </body>
   </html>
