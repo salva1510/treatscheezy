@@ -581,3 +581,21 @@ body::before {
   right: 20px !important;
   z-index: 999;
 }
+.user-message {
+  background: #ff9800;
+  color: white;
+  padding: 10px;
+  border-radius: 15px 15px 0 15px;
+  margin-bottom: 8px;
+  text-align: right;
+  max-width: 80%;
+  margin-left: auto;
+}
+
+.bot-message {
+  background: #f1f1f1;
+  padding: 10px;
+  border-radius: 15px 15px 15px 0;
+  margin-bottom: 8px;
+  max-width: 80%;
+}
