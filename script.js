@@ -494,3 +494,46 @@ function sendMessage() {
 
   }, 800);
 }
+function generateAIReply(text) {
+
+  // Greetings
+  if (text.includes("hi") || text.includes("hello")) {
+    return "Hi 👋 Welcome to Treats Cheezy! Are you looking for cheese, frozen goods, or grocery items?";
+  }
+
+  // Payment
+  if (text.includes("payment") || text.includes("gcash") || text.includes("maya")) {
+    return "💳 We accept GCash, Maya, COD, and GCash upon pickup.";
+  }
+
+  // Delivery
+  if (text.includes("delivery") || text.includes("ship")) {
+    return "🚚 Delivery via Lalamove. Shipping fee is shouldered by customer.";
+  }
+
+  // Location
+  if (text.includes("location") || text.includes("where")) {
+    return "📍 We are located in Quiapo, Manila.";
+  }
+
+  // Order Help
+  if (text.includes("order")) {
+    return "🛒 Just add items to your basket and click checkout. We’ll receive your order instantly.";
+  }
+
+  // PRODUCT SEARCH AI
+  if (typeof currentLiveItems !== "undefined") {
+    let foundProduct = currentLiveItems.find(item =>
+      item.name.toLowerCase().includes(text)
+    );
+
+    if (foundProduct) {
+      return `🧀 ${foundProduct.name}
+Price: ₱${foundProduct.pricePiece || foundProduct.pricePack || foundProduct.priceSet || foundProduct.priceBox}
+Status: ${foundProduct.status}`;
+    }
+  }
+
+  // Smart fallback
+  return "I understand 😊 Can you please tell me what product you're looking for?";
+}
