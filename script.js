@@ -462,16 +462,45 @@ function sendMessage() {
 
   if (input.value.trim() === "") return;
 
+  const userText = input.value.toLowerCase();
+
+  // USER MESSAGE
   const userMsg = document.createElement("div");
-  userMsg.className = "bot-message";
-  userMsg.textContent = "You: " + input.value;
+  userMsg.className = "user-message";
+  userMsg.textContent = input.value;
   messages.appendChild(userMsg);
 
-  const reply = document.createElement("div");
-  reply.className = "bot-message";
-  reply.textContent = "Thank you! We will reply soon.";
-  messages.appendChild(reply);
+  let botReply = "Thank you! Our team will reply shortly 😊";
+
+  // AUTO REPLIES
+  if (userText.includes("hello") || userText.includes("hi")) {
+    botReply = "Hi 👋 Welcome to Treats Cheezy! How can we help you today?";
+  }
+  else if (userText.includes("price")) {
+    botReply = "You can check all updated prices in our product list above 🧀";
+  }
+  else if (userText.includes("delivery")) {
+    botReply = "🚚 Delivery via Lalamove. Shipping fee is shouldered by customer.";
+  }
+  else if (userText.includes("location")) {
+    botReply = "📍 We are located in Quiapo, Manila.";
+  }
+  else if (userText.includes("payment")) {
+    botReply = "💳 We accept GCash, Maya, COD, and GCash upon pickup.";
+  }
+  else if (userText.includes("order")) {
+    botReply = "🛒 You can add items to basket and click checkout to send your order.";
+  }
+
+  // BOT MESSAGE (delay effect)
+  setTimeout(() => {
+    const reply = document.createElement("div");
+    reply.className = "bot-message";
+    reply.textContent = botReply;
+    messages.appendChild(reply);
+    messages.scrollTop = messages.scrollHeight;
+  }, 600);
 
   input.value = "";
   messages.scrollTop = messages.scrollHeight;
-}                                                                                                                                                                                                                 
+}
