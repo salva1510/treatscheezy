@@ -444,4 +444,35 @@ window.addEventListener("scroll", function () {
 
     document.getElementById("scrollProgress").style.width = scrollPercent + "%";
 });
+const chatToggle = document.getElementById("chat-toggle");
+const chatBox = document.getElementById("chat-box");
+const closeChat = document.getElementById("close-chat");
+
+chatToggle.onclick = () => {
+  chatBox.style.display = "flex";
+};
+
+closeChat.onclick = () => {
+  chatBox.style.display = "none";
+};
+
+function sendMessage() {
+  const input = document.getElementById("chat-input");
+  const messages = document.getElementById("chat-messages");
+
+  if (input.value.trim() === "") return;
+
+  const userMsg = document.createElement("div");
+  userMsg.className = "bot-message";
+  userMsg.textContent = "You: " + input.value;
+  messages.appendChild(userMsg);
+
+  const reply = document.createElement("div");
+  reply.className = "bot-message";
+  reply.textContent = "Thank you! We will reply soon.";
+  messages.appendChild(reply);
+
+  input.value = "";
+  messages.scrollTop = messages.scrollHeight;
+}
                                                                                                                                                                                                                   
