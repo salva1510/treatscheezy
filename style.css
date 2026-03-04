@@ -530,3 +530,11 @@ body::before {
   margin-bottom: 5px;
   border-radius: 5px;
 }
+    /* Fix overlapping chat buttons */
+#chat-toggle {
+  bottom: 90px !important;
+}
+
+#chat-box {
+  bottom: 150px !important;
+}
