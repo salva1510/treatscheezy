@@ -459,4 +459,11 @@ body::before {
     font-weight: 600;
     text-shadow: 0 3px 10px rgba(0,0,0,0.5);
 }
+/* Fix overlapping chat buttons */
+#chat-toggle {
+  bottom: 90px !important;
+}
 
+#chat-box {
+  bottom: 150px !important;
+}
