@@ -549,3 +549,35 @@ body::before {
   margin-bottom: 5px;
   border-radius: 10px;
 }
+/* ===== CLEAN FLOATING BUTTON STACK ===== */
+
+/* Messenger (Pinakababa) */
+.floating-chat {
+  position: fixed;
+  bottom: 20px !important;
+  right: 20px !important;
+  z-index: 900;
+}
+
+/* CS Chat Button (Gitna) */
+#chat-toggle {
+  position: fixed;
+  bottom: 80px !important;
+  right: 20px !important;
+  z-index: 901;
+}
+
+/* Basket (Pinakataas) */
+#basketFloat {
+  position: fixed;
+  bottom: 140px !important;
+  right: 20px !important;
+  z-index: 902;
+}
+
+/* Chat Box popup */
+#chat-box {
+  bottom: 130px !important;
+  right: 20px !important;
+  z-index: 999;
+}
