@@ -534,3 +534,18 @@ body::before {
 #chat-box {
   bottom: 150px !important;
 }
+.user-message {
+  background: #ff9800;
+  color: white;
+  padding: 8px;
+  margin-bottom: 5px;
+  border-radius: 10px;
+  text-align: right;
+}
+
+.bot-message {
+  background: #f1f1f1;
+  padding: 8px;
+  margin-bottom: 5px;
+  border-radius: 10px;
+}
